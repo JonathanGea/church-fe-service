@@ -1,0 +1,83 @@
+<main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
+  <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+    <div
+      class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+      <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
+      Dokumentasi kegiatan jemaat
+    </div>
+    <h1 class="mt-4 font-heading text-4xl sm:text-5xl">Album</h1>
+    <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
+      Kumpulan foto dan momen pelayanan, ibadah, serta kegiatan jemaat.
+    </p>
+  </section>
+
+  <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+    <div class="flex flex-wrap items-center gap-3">
+      <button *ngFor="let tag of tags" type="button" class="rounded-full border px-4 py-1.5 text-sm transition"
+        [ngClass]="
+          selectedTag === tag
+            ? 'border-bnkpn-navy bg-bnkpn-navy text-white'
+            : 'border-bnkpn-border bg-bnkpn-offwhite text-bnkpn-slate hover:bg-bnkpn-surface'
+        " (click)="setTag(tag)">
+        {{ tag }}
+      </button>
+    </div>
+  </section>
+
+  <section class="">
+    <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+        <article *ngFor="let photo of filteredPhotos"
+          class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
+          <div class="aspect-[4/3] rounded-xl2 border border-bnkpn-border bg-bnkpn-surface text-sm text-bnkpn-slate">
+            <div class="grid h-full place-items-center">Foto Album</div>
+          </div>
+          <div class="mt-4 flex items-start justify-between gap-3">
+            <div>
+              <div class="text-xs text-bnkpn-slate">{{ photo.tag }}</div>
+              <h3 class="mt-1 text-lg font-semibold">{{ photo.title }}</h3>
+              <div class="mt-1 text-sm text-bnkpn-slate">{{ photo.count }} foto</div>
+            </div>
+            <span *ngIf="photo.tag === 'Ibadah'"
+              class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+              Baru
+            </span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- <aside class="grid gap-6">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+        <h3 class="font-heading text-2xl">Highlight</h3>
+        <p class="mt-2 text-sm text-bnkpn-slate">Album pilihan yang sering diakses jemaat.</p>
+
+        <div class="mt-4 space-y-3">
+          <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
+            <div class="text-xs text-bnkpn-slate">Natal</div>
+            <div class="mt-1 font-semibold">Perayaan Natal 2025</div>
+            <div class="mt-1 text-sm text-bnkpn-slate">36 foto</div>
+          </div>
+          <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
+            <div class="text-xs text-bnkpn-slate">Paskah</div>
+            <div class="mt-1 font-semibold">Ibadah Paskah 2025</div>
+            <div class="mt-1 text-sm text-bnkpn-slate">28 foto</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+        <div class="text-sm font-semibold">Kirim Dokumentasi</div>
+        <p class="mt-2 text-sm text-bnkpn-slate">
+          Kirim foto kegiatan jemaat melalui admin untuk ditambahkan ke album resmi.
+        </p>
+        <a
+          routerLink="/kontak"
+          class="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+        >
+          Kontak Admin
+        </a>
+      </div>
+    </aside> -->
+  </section>
+</main>
