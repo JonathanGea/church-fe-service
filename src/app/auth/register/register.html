@@ -1,0 +1,97 @@
+<section class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+  <div class="space-y-4">
+    <p class="text-xs uppercase tracking-[0.3em] text-strong/50">Auth</p>
+    <h1 class="text-4xl font-semibold leading-tight md:text-5xl">Create an account.</h1>
+    <p class="max-w-xl text-base text-strong/70">
+      Set up a new user with a role and password. Customize this form to match your backend.
+    </p>
+    <div class="rounded-3xl border border-default bg-surface p-6 text-sm text-strong/70">
+      Tip: Add role rules or invite-only logic here if needed.
+    </div>
+  </div>
+
+  <div class="rounded-3xl border border-default bg-surface p-6 shadow-sm">
+    <h2 class="text-xl font-semibold text-strong">Register</h2>
+    <p class="mt-1 text-sm text-strong/60">Provision a new account.</p>
+
+    <form class="mt-6 space-y-4">
+      <label class="block text-sm text-strong/70">
+        Username
+        <input
+          type="text"
+          name="username"
+          autocomplete="username"
+          placeholder="jane.doe"
+          class="mt-2 w-full rounded-xl border border-default bg-app px-4 py-3 text-strong placeholder:text-strong/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+      </label>
+
+      <label class="block text-sm text-strong/70">
+        Role
+        <input
+          type="text"
+          name="role"
+          autocomplete="organization-title"
+          placeholder="Admin, Editor, Viewer"
+          class="mt-2 w-full rounded-xl border border-default bg-app px-4 py-3 text-strong placeholder:text-strong/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+      </label>
+
+      <label class="block text-sm text-strong/70">
+        Password
+        <input
+          type="password"
+          name="password"
+          autocomplete="new-password"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+          class="mt-2 w-full rounded-xl border border-default bg-app px-4 py-3 text-strong placeholder:text-strong/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+      </label>
+
+      <div
+        class="rounded-xl border border-default bg-app px-4 py-3 text-xs"
+        [ngClass]="
+          passwordStrengthScore === 3
+            ? 'text-green-600'
+            : passwordStrengthScore === 2
+              ? 'text-amber-600'
+              : 'text-rose-600'
+        "
+      >
+        {{ passwordStrengthLabel }}
+      </div>
+
+      <label class="block text-sm text-strong/70">
+        Confirm Password
+        <input
+          type="password"
+          name="passwordConfirm"
+          autocomplete="new-password"
+          placeholder="••••••••"
+          [(ngModel)]="passwordConfirm"
+          class="mt-2 w-full rounded-xl border border-default bg-app px-4 py-3 text-strong placeholder:text-strong/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+      </label>
+
+      <div
+        class="rounded-xl border border-default bg-app px-4 py-3 text-xs"
+        [ngClass]="passwordsMatch ? 'text-green-600' : 'text-rose-600'"
+      >
+        {{ passwordsMatch ? 'Passwords match.' : 'Passwords do not match yet.' }}
+      </div>
+
+      <button
+        type="submit"
+        class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary/90"
+      >
+        Create account
+      </button>
+    </form>
+
+    <p class="mt-5 text-sm text-strong/60">
+      Already have an account?
+      <a routerLink="/admin/login" class="text-primary hover:underline">Sign in</a>.
+    </p>
+  </div>
+</section>
