@@ -58,7 +58,7 @@
             "host": "0.0.0.0",
             "port": 4300,
             "allowedHosts": [
-              "*"
+              "church-demo-production.up.railway.app"
             ]
           },
           "configurations": {
