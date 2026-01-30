@@ -7,12 +7,22 @@
         {{ info.officeContacts.phone }}
       </a>
     </div>
-    <div class="flex items-center gap-3">
-      <a class="hover:text-bnkpn-charcoal" [href]="info.officeContacts.whatsapp">
-        {{ info.ctaLabels.whatsappLabel }}
+    <div class="flex flex-wrap items-center justify-end gap-2 text-right sm:flex-nowrap sm:gap-3">
+      <a
+        class="max-w-[140px] truncate hover:text-bnkpn-charcoal"
+        [href]="info.officeContacts.whatsapp"
+        [attr.title]="info.ctaLabels.whatsappLabel"
+      >
+        <span class="sm:hidden">WhatsApp</span>
+        <span class="hidden sm:inline">{{ info.ctaLabels.whatsappLabel }}</span>
       </a>
-      <a class="hover:text-bnkpn-charcoal" [href]="info.map.mapUrl">
-        {{ info.ctaLabels.mapLabel }}
+      <a
+        class="max-w-[140px] truncate hover:text-bnkpn-charcoal"
+        [href]="info.map.mapUrl"
+        [attr.title]="info.ctaLabels.mapLabel"
+      >
+        <span class="sm:hidden">Maps</span>
+        <span class="hidden sm:inline">{{ info.ctaLabels.mapLabel }}</span>
       </a>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PublicContentService } from '../../core/services/public-content.service';
@@ -10,7 +11,7 @@ import { EmptyStateComponent } from '../../shared/ui/empty-state/empty-state.com
 @Component({
   selector: 'app-warta-page',
   standalone: true,
-  imports: [NgIf, NgFor, LoadingStateComponent, ErrorStateComponent, EmptyStateComponent],
+  imports: [RouterLink, NgIf, NgFor, LoadingStateComponent, ErrorStateComponent, EmptyStateComponent],
   templateUrl: './warta.html',
   styleUrl: './warta.css'
 })

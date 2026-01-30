@@ -46,42 +46,123 @@
         />
       </div>
 
-      <button
-        type="button"
-        aria-label="Profile"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-default text-strong transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-      >
-        <i class="fa-solid fa-user text-base" aria-hidden="true"></i>
-      </button>
+      <div class="relative">
+        <button
+          type="button"
+          aria-label="User menu"
+          [attr.aria-expanded]="isUserMenuOpen"
+          aria-controls="adminUserMenu"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-default text-strong transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          (click)="toggleUserMenu()"
+        >
+          <i class="fa-solid fa-user text-base" aria-hidden="true"></i>
+        </button>
 
-      <button
-        type="button"
-        aria-label="Settings"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-default text-strong transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-      >
-        <i class="fa-solid fa-gear text-base" aria-hidden="true"></i>
-      </button>
+        <div
+          id="adminUserMenu"
+          class="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-default bg-surface p-2 shadow-lg"
+          *ngIf="isUserMenuOpen"
+        >
+          <div class="px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-strong/50">
+            Public Pages
+          </div>
+          <a
+            routerLink="/"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-house text-xs" aria-hidden="true"></i>
+            Beranda
+          </a>
+          <a
+            routerLink="/warta"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-file-lines text-xs" aria-hidden="true"></i>
+            Warta
+          </a>
+          <a
+            routerLink="/ibadah"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-church text-xs" aria-hidden="true"></i>
+            Ibadah
+          </a>
+          <a
+            routerLink="/kegiatan"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-calendar-days text-xs" aria-hidden="true"></i>
+            Kegiatan
+          </a>
+          <a
+            routerLink="/pelayanan"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-hands-praying text-xs" aria-hidden="true"></i>
+            Pelayanan
+          </a>
+          <a
+            routerLink="/kontak"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-phone text-xs" aria-hidden="true"></i>
+            Kontak
+          </a>
+          <a
+            routerLink="/persembahan"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-hand-holding-heart text-xs" aria-hidden="true"></i>
+            Persembahan
+          </a>
+          <a
+            routerLink="/album"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="closeUserMenu()"
+          >
+            <i class="fa-solid fa-images text-xs" aria-hidden="true"></i>
+            Album
+          </a>
 
-      <button
-        type="button"
-        aria-label="Sign out"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-default text-strong transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-        (click)="onSignOut()"
-      >
-        <i class="fa-solid fa-right-from-bracket text-base" aria-hidden="true"></i>
-      </button>
+          <div class="my-2 border-t border-default"></div>
+          <button
+            type="button"
+            class="flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+          >
+            <span class="inline-flex items-center gap-2">
+              <i class="fa-solid fa-bell text-xs" aria-hidden="true"></i>
+              Notifikasi
+            </span>
+            <span class="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-white">
+              {{ notificationsCount }}
+            </span>
+          </button>
 
-      <button
-        type="button"
-        aria-label="Notifications"
-        class="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-default text-strong transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-      >
-        <i class="fa-solid fa-bell text-base" aria-hidden="true"></i>
-        <span class="sr-only">You have {{ notificationsCount }} notifications</span>
-        <span class="absolute -right-1 -top-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-white">
-          {{ notificationsCount }}
-        </span>
-      </button>
+          <button
+            type="button"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+          >
+            <i class="fa-solid fa-gear text-xs" aria-hidden="true"></i>
+            Pengaturan
+          </button>
+
+          <button
+            type="button"
+            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-strong transition hover:bg-app"
+            (click)="onSignOut()"
+          >
+            <i class="fa-solid fa-right-from-bracket text-xs" aria-hidden="true"></i>
+            Keluar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
