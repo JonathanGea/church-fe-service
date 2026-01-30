@@ -1,6 +1,7 @@
 # Backend API Requirements
 
 Dokumen ini merangkum kebutuhan endpoint backend berdasarkan fitur yang ada di UI saat ini.
+Sumber kebenaran kebutuhan data: `_docs/admin-menu.md`.
 Semua response mengikuti format `BaseResponse<T>`:
 
 ```json
@@ -58,6 +59,43 @@ Response `BaseResponse<{}>`
 
 ## Public Content
 
+### GET /public/home
+Response `BaseResponse<HomeContent>`
+```json
+{
+  "isSuccess": true,
+  "errors": null,
+  "data": {
+    "hero": {
+      "title": "Selamat Datang di BNKP Jemaat ...",
+      "description": "Ringkasan singkat",
+      "ctaPrimary": { "label": "Lihat Ibadah", "url": "/ibadah" },
+      "ctaSecondary": { "label": "Baca Warta", "url": "/warta" }
+    },
+    "scheduleSummary": [
+      { "day": "Minggu", "title": "Ibadah Raya", "time": "08.00", "location": "Gereja" }
+    ],
+    "weeklyTheme": {
+      "title": "Kasih yang Mengubah Hidup",
+      "dateLabel": "Minggu, 28 Jan 2026",
+      "verse": "Yohanes 3:16",
+      "preacher": "Pdt. Nama",
+      "location": "Gereja"
+    },
+    "onlineWorship": {
+      "isLive": true,
+      "embedUrl": "https://youtube.com/embed/...",
+      "streamUrl": "https://youtube.com/...",
+      "channelUrl": "https://youtube.com/..."
+    },
+    "quickLinks": [
+      { "label": "Warta Jemaat", "url": "/warta" }
+    ]
+  },
+  "timestamp": "2026-01-28T10:20:30.000Z"
+}
+```
+
 ### GET /public/about
 Response `BaseResponse<AboutContent>`
 ```json
@@ -65,14 +103,17 @@ Response `BaseResponse<AboutContent>`
   "isSuccess": true,
   "errors": null,
   "data": {
-    "churchName": "BNKP Jemaat ...",
-    "tagline": "Tagline jemaat",
-    "history": "Ringkasan sejarah",
-    "vision": "Gereja yang memuridkan dan melayani.",
-    "mission": [
-      "Penguatan iman dan persekutuan",
-      "Pelayanan kasih dan kesaksian",
-      "Pembinaan jemaat lintas generasi"
+    "profileSummary": "Ringkasan profil jemaat",
+    "history": {
+      "summary": "Sejarah singkat",
+      "establishedYear": 1980,
+      "serviceArea": "Wilayah pelayanan",
+      "notes": "Catatan tambahan"
+    },
+    "vision": "Visi jemaat",
+    "missions": [
+      "Misi 1",
+      "Misi 2"
     ],
     "leaders": [
       { "role": "Pendeta", "name": "Pdt. Nama" },
@@ -83,51 +124,31 @@ Response `BaseResponse<AboutContent>`
 }
 ```
 
-### GET /public/worship/schedule
-Response `BaseResponse<WorshipSchedule>`
+### GET /public/worship
+Response `BaseResponse<WorshipContent>`
 ```json
 {
   "isSuccess": true,
   "errors": null,
   "data": {
-    "weekly": [
+    "schedule": [
       {
         "day": "Minggu",
         "title": "Ibadah Raya",
         "time": "08.00 & 10.30",
         "location": "Onsite & Online"
-      },
-      {
-        "day": "Rabu",
-        "title": "Doa Bersama",
-        "time": "19.00",
-        "location": "Ruang Utama"
       }
     ],
-    "categories": [
-      {
-        "label": "Kategorial",
-        "title": "Pemuda / Kaum Ibu",
-        "note": "Sesuai pengumuman"
-      }
-    ],
-    "liturgyPdfUrl": "https://.../tata-ibadah.pdf"
-  },
-  "timestamp": "2026-01-28T10:20:30.000Z"
-}
-```
-
-### GET /public/worship/online
-Response `BaseResponse<OnlineWorship>`
-```json
-{
-  "isSuccess": true,
-  "errors": null,
-  "data": {
-    "isLive": true,
-    "streamUrl": "https://youtube.com/...",
-    "channelUrl": "https://youtube.com/...",
-    "theme": {
+    "liturgy": {
+      "wartaUrl": "https://.../tata-ibadah.pdf"
+    },
+    "online": {
+      "isLive": true,
+      "embedUrl": "https://youtube.com/embed/...",
+      "streamUrl": "https://youtube.com/...",
+      "channelUrl": "https://youtube.com/..."
+    },
+    "weeklyTheme": {
       "title": "Kasih yang Mengubah Hidup",
       "verse": "Yohanes 3:16",
       "preacher": "Pdt. Nama"
@@ -145,22 +166,26 @@ Response `BaseResponse<BulletinList>`
   "isSuccess": true,
   "errors": null,
   "data": {
-    "current": {
-      "title": "Warta Minggu 28 Jan 2026",
+    "weekly": {
+      "dateLabel": "Minggu, 28 Jan 2026",
       "theme": "Kasih yang Mengubah Hidup",
       "pdfUrl": "https://.../warta-2026-01-28.pdf"
     },
-    "items": [
+    "latest": [
       {
         "id": "warta-2026-01-28",
-        "title": "Warta Minggu 28 Jan 2026",
+        "dateLabel": "Minggu, 28 Jan 2026",
         "theme": "Kasih yang Mengubah Hidup",
         "pdfUrl": "https://.../warta-2026-01-28.pdf"
       }
     ],
+    "weeklyTheme": {
+      "title": "Kasih yang Mengubah Hidup",
+      "summary": "Ringkasan tema minggu ini"
+    },
     "archives": [
-      { "month": "Januari 2026", "count": 4 },
-      { "month": "Desember 2025", "count": 5 }
+      { "month": "Januari 2026" },
+      { "month": "Desember 2025" }
     ]
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
@@ -175,22 +200,26 @@ Response `BaseResponse<ActivityList>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "filters": {
+      "months": ["Januari 2026", "Februari 2026"],
+      "categories": ["Kategorial", "Umum"]
+    },
     "upcoming": [
       {
         "id": "katekisasi-batch-1",
         "title": "Kelas Katekisasi (Batch 1)",
         "category": "Kategorial",
-        "date": "2026-01-27",
-        "time": "16.00",
+        "dateLabel": "Sabtu, 27 Jan 2026",
+        "timeLabel": "16.00",
         "location": "Ruang Kelas",
         "status": "Terbuka"
       }
     ],
     "calendar": [
       {
-        "date": "2026-01-28",
+        "dateLabel": "Minggu, 28 Jan 2026",
         "title": "Ibadah Raya",
-        "time": "08.00 & 10.30"
+        "timeLabel": "08.00 & 10.30"
       }
     ],
     "archives": [
@@ -234,12 +263,12 @@ Response `BaseResponse<MinistryContent>`
   "errors": null,
   "data": {
     "kategorial": [
-      { "name": "Sekolah Minggu", "schedule": "Minggu - 08.00" },
-      { "name": "Remaja", "schedule": "Sabtu - 17.00" }
+      { "name": "Sekolah Minggu", "description": "Deskripsi singkat", "schedule": "Minggu - 08.00" },
+      { "name": "Remaja", "description": "Deskripsi singkat", "schedule": "Sabtu - 17.00" }
     ],
     "fungsional": [
-      { "name": "Diakonia", "description": "Pelayanan kasih" },
-      { "name": "Multimedia", "description": "Live streaming" }
+      { "label": "Bidang", "name": "Diakonia", "description": "Pelayanan kasih" },
+      { "label": "Bidang", "name": "Multimedia", "description": "Live streaming" }
     ]
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
@@ -253,14 +282,42 @@ Response `BaseResponse<OfferingInfo>`
   "isSuccess": true,
   "errors": null,
   "data": {
-    "bankAccounts": [
-      { "bank": "BCA", "number": "1234567890", "name": "BNKP Jemaat ..." }
+    "methods": [
+      {
+        "type": "TRANSFER",
+        "title": "Transfer Bank",
+        "details": [
+          { "label": "BCA", "value": "1234567890 a.n. BNKP Jemaat ..." }
+        ]
+      },
+      {
+        "type": "QRIS",
+        "title": "QRIS",
+        "details": [
+          { "label": "QR Code", "value": "https://.../qris.png" }
+        ]
+      },
+      {
+        "type": "ONSITE",
+        "title": "Onsite",
+        "details": [
+          { "label": "Lokasi", "value": "Kotak Persembahan" }
+        ]
+      }
     ],
-    "qrisImageUrl": "https://.../qris.png",
-    "notes": [
+    "guide": [
       "Tulis keterangan persembahan",
       "Gunakan nama lengkap"
-    ]
+    ],
+    "confirmationForm": {
+      "isEnabled": true
+    },
+    "transparency": {
+      "isEnabled": false,
+      "items": [
+        { "label": "Laporan 2025", "url": "https://.../laporan-2025.pdf" }
+      ]
+    }
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
 }
@@ -296,15 +353,26 @@ Response `BaseResponse<ContactInfo>`
   "errors": null,
   "data": {
     "address": "Jl. Contoh No. 10, Kota",
-    "phone": "+62 0 0000 0000",
-    "email": "info@bnkpjemaat.org",
-    "whatsapp": "+62 0 0000 0000",
-    "mapUrl": "https://maps.google.com/...",
+    "landmark": "Patokan dekat ...",
+    "officeContacts": {
+      "phone": "+62 0 0000 0000",
+      "email": "info@bnkpjemaat.org",
+      "whatsapp": "+62 0 0000 0000"
+    },
+    "map": {
+      "embedUrl": "https://maps.google.com/...",
+      "mapUrl": "https://maps.google.com/..."
+    },
     "officeHours": [
-      { "day": "Senin-Jumat", "time": "09.00-17.00" },
-      { "day": "Sabtu", "time": "09.00-13.00" },
-      { "day": "Minggu", "time": "06.30-12.00" }
-    ]
+      { "label": "Senin-Jumat", "time": "09.00-17.00" },
+      { "label": "Sabtu", "time": "09.00-13.00" },
+      { "label": "Minggu", "time": "06.30-12.00" }
+    ],
+    "pastoralService": {
+      "isEnabled": true,
+      "ctaLabel": "Ajukan Konseling",
+      "ctaUrl": "/kontak"
+    }
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
 }
@@ -319,13 +387,12 @@ Response `BaseResponse<AlbumList>`
   "errors": null,
   "data": {
     "tags": ["Ibadah", "Kegiatan", "Pelayanan", "Pelatihan"],
-    "items": [
+    "selectedTag": "Ibadah",
+    "photos": [
       {
-        "id": "album-ibadah-2026-01-28",
         "title": "Ibadah Minggu",
-        "tag": "Ibadah",
-        "photoCount": 24,
-        "coverUrl": "https://.../cover.jpg"
+        "count": 24,
+        "tag": "Ibadah"
       }
     ]
   },
@@ -352,3 +419,105 @@ Response `BaseResponse<AlbumDetail>`
   "timestamp": "2026-01-28T10:20:30.000Z"
 }
 ```
+
+## Admin Content (Protected)
+
+### GET /admin/home
+Response `BaseResponse<HomeContent>`
+
+### PUT /admin/home
+Request `HomeContent`
+Response `BaseResponse<HomeContent>`
+
+### GET /admin/about
+Response `BaseResponse<AboutContent>`
+
+### PUT /admin/about
+Request `AboutContent`
+Response `BaseResponse<AboutContent>`
+
+### GET /admin/worship
+Response `BaseResponse<WorshipContent>`
+
+### PUT /admin/worship
+Request `WorshipContent`
+Response `BaseResponse<WorshipContent>`
+
+### GET /admin/bulletins
+Query params: `page`, `limit`
+Response `BaseResponse<BulletinList>`
+
+### POST /admin/bulletins
+Request `BulletinPayload` (weekly warta item)
+Response `BaseResponse<BulletinItem>`
+
+### PUT /admin/bulletins/{id}
+Request `BulletinPayload`
+Response `BaseResponse<BulletinItem>`
+
+### DELETE /admin/bulletins/{id}
+Response `BaseResponse<{}>`
+
+### GET /admin/activities
+Query params: `month`, `category`, `q`
+Response `BaseResponse<ActivityList>`
+
+### POST /admin/activities
+Request `ActivityPayload`
+Response `BaseResponse<ActivityItem>`
+
+### GET /admin/activities/{id}
+Response `BaseResponse<ActivityDetail>`
+
+### PUT /admin/activities/{id}
+Request `ActivityPayload`
+Response `BaseResponse<ActivityDetail>`
+
+### DELETE /admin/activities/{id}
+Response `BaseResponse<{}>`
+
+### GET /admin/ministry
+Response `BaseResponse<MinistryContent>`
+
+### PUT /admin/ministry
+Request `MinistryContent`
+Response `BaseResponse<MinistryContent>`
+
+### GET /admin/offerings
+Response `BaseResponse<OfferingInfo>`
+
+### PUT /admin/offerings
+Request `OfferingInfo`
+Response `BaseResponse<OfferingInfo>`
+
+### GET /admin/contact
+Response `BaseResponse<ContactInfo>`
+
+### PUT /admin/contact
+Request `ContactInfo`
+Response `BaseResponse<ContactInfo>`
+
+### GET /admin/albums
+Query params: `tag`
+Response `BaseResponse<AlbumList>`
+
+### POST /admin/albums
+Request `AlbumPayload`
+Response `BaseResponse<AlbumItem>`
+
+### GET /admin/albums/{id}
+Response `BaseResponse<AlbumDetail>`
+
+### PUT /admin/albums/{id}
+Request `AlbumPayload`
+Response `BaseResponse<AlbumDetail>`
+
+### DELETE /admin/albums/{id}
+Response `BaseResponse<{}>`
+
+### POST /admin/albums/{id}/photos
+Request `AlbumPhotoPayload`
+Response `BaseResponse<AlbumDetail>`
+
+### DELETE /admin/albums/{id}/photos/{photoId}
+Response `BaseResponse<{}>`

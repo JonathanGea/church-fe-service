@@ -1,118 +1,118 @@
-# Admin Menu Requirements (Detailed)
+# Admin Menu Requirements (Public Pages Only)
 
-Dokumen ini merinci fitur admin yang diperlukan untuk mengelola konten publik dan operasional.
+Dokumen ini disusun berdasarkan kode halaman public di `src/app/public/**`.
+Hanya mencatat fitur dan data yang benar-benar dipakai/dirender di template atau TS.
+Jika halaman masih statis (hardcoded), maka tidak ada data dinamis yang dibutuhkan.
 
-## 1) Auth & Access
-- Login admin (username + password)
-- Logout
-- (Opsional) Registrasi admin
-- Role & permission (ADMIN, EDITOR)
+## 1) Beranda (Home)
+Lokasi kode: `src/app/public/home/home.html`
+- Fitur:
+  - Hero dengan judul, deskripsi, dan CTA ke Ibadah/Warta.
+  - Ringkasan jadwal (3 kartu).
+  - Highlight tema minggu ini (judul tema, tanggal/jam, ayat, pelayan firman, lokasi).
+  - Blok ibadah online (placeholder embed) dan CTA cepat.
+  - Akses cepat ke halaman publik lainnya.
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 2) Dashboard
-- Ringkasan statistik:
-  - Total warta aktif
-  - Kegiatan minggu ini
-  - Album terbaru
-  - Pengunjung (opsional, jika ada analytics)
-- Quick actions:
-  - Upload warta baru
-  - Tambah kegiatan
-  - Tambah album
+## 2) Tentang Jemaat
+Lokasi kode: `src/app/public/tentang/tentang.html`
+- Fitur:
+  - Ringkasan profil jemaat.
+  - Sejarah singkat, tahun berdiri, wilayah pelayanan, catatan.
+  - Visi, misi (list), dan struktur pelayan.
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 3) Tentang Jemaat
-- Edit profil jemaat:
-  - Nama jemaat
-  - Tagline
-  - Sejarah singkat
-  - Visi & misi (list)
-  - Struktur pelayan (list: role + name)
-- Upload logo jemaat
+## 3) Ibadah
+Lokasi kode: `src/app/public/ibadah/ibadah.html`
+- Fitur:
+  - Jadwal ibadah (kartu-kartu: hari, nama ibadah, jam, lokasi).
+  - Tata ibadah (tautan ke warta).
+  - Ibadah online (status live, placeholder embed, tombol channel).
+  - Tema minggu ini (judul, ayat, pelayan firman).
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 4) Jadwal Ibadah
-- Jadwal mingguan (CRUD):
-  - Hari, nama ibadah, jam, lokasi, tipe (onsite/online)
-- Jadwal kategorial (CRUD)
-- Upload tata ibadah PDF
+## 4) Warta Jemaat
+Lokasi kode: `src/app/public/warta/warta.html`
+- Fitur:
+  - Warta mingguan: tanggal, tema, preview PDF (placeholder), aksi unduh/buka/cetak.
+  - Daftar warta terbaru.
+  - Tema minggu ini + ringkasan.
+  - Arsip warta per bulan (list).
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 5) Ibadah Online & Tema Mingguan
-- Link streaming (YouTube/Zoom)
-- Status live (on/off)
-- Tema minggu ini:
-  - Judul tema
-  - Ayat
-  - Nama pelayan firman
+## 5) Kegiatan Jemaat
+Lokasi kode: `src/app/public/kegiatan/kegiatan.html`
+- Fitur:
+  - Filter (bulan, kategori, pencarian) — hanya UI, belum terhubung data.
+  - Kegiatan terdekat (list kartu kegiatan + CTA detail/daftar).
+  - Kalender bulanan (list ringkas).
+  - Arsip kegiatan (list bulan).
+  - CTA ke kontak admin.
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 6) Warta Jemaat
-- Upload PDF warta
-- Metadata:
-  - Judul
-  - Tema
-  - Tanggal
-- Arsip per bulan (auto-grouping)
-- Set warta sebagai “aktif” (utama)
+## 6) Kegiatan Detail
+Lokasi kode: `src/app/public/kegiatan-detail/kegiatan-detail.html` dan `.ts`
+- Fitur:
+  - Menampilkan detail kegiatan berdasarkan route param `id`.
+  - Menampilkan agenda (list) dan highlight (list).
+  - Menampilkan kontak penanggung jawab.
+  - State “kegiatan tidak ditemukan”.
+- Data (sesuai interface di TS):
+  - ActivityDetail:
+    - id: string
+    - title: string
+    - category: string
+    - dateLabel: string
+    - timeLabel: string
+    - location: string
+    - status: string
+    - summary: string
+    - highlights: string[]
+    - agenda: string[]
+    - contactName: string
+    - contactPhone: string
 
-## 7) Kegiatan Jemaat
-- CRUD kegiatan:
-  - Judul
-  - Kategori
-  - Tanggal & waktu
-  - Lokasi
-  - Status (Terbuka/Pelayanan/Undangan)
-  - Deskripsi
-  - Agenda (list)
-  - Highlight (list)
-  - Kontak penanggung jawab
-- Filter kegiatan per bulan/kategori
+## 7) Pelayanan Jemaat
+Lokasi kode: `src/app/public/pelayanan/pelayanan.html`
+- Fitur:
+  - Daftar pelayanan kategorial (nama, deskripsi, jadwal).
+  - Daftar pelayanan fungsional (label, nama, deskripsi).
+  - CTA menuju kontak/kegiatan.
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 8) Pelayanan Jemaat
-- Kategorial (CRUD)
-  - Nama kategori
-  - Jadwal
-  - Deskripsi singkat
-- Fungsional (CRUD)
-  - Nama pelayanan
-  - Deskripsi
+## 8) Persembahan
+Lokasi kode: `src/app/public/persembahan/persembahan.html`
+- Fitur:
+  - Informasi metode persembahan (transfer bank, QRIS, onsite).
+  - Panduan singkat (list).
+  - Form konfirmasi persembahan (UI statis, belum submit).
+  - Blok “Transparansi” (opsional) dengan aksi unduh/arsip.
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 9) Persembahan
-- Kelola rekening persembahan
-- Upload/ubah QRIS
-- Catatan persembahan (list)
-- Konfirmasi persembahan (view list)
-  - Nama, tanggal, nominal, metode, keterangan
+## 9) Kontak
+Lokasi kode: `src/app/public/kontak/kontak.html`
+- Fitur:
+  - Alamat, patokan, kontak kantor.
+  - Embed peta (placeholder) + CTA WhatsApp/Maps.
+  - Jam layanan (list).
+  - Layanan pastoral (opsional) + CTA form.
+- Data:
+  - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
-## 10) Kontak & Lokasi
-- Alamat gereja
-- Nomor telepon
-- WhatsApp admin
-- Email
-- Link Google Maps
-- Jam operasional (list)
-
-## 11) Album / Media
-- CRUD album:
-  - Judul
-  - Tag/kategori
-  - Cover image
-- Upload foto ke album (multiple)
-- Set album highlight
-
-## 12) User Management
-- CRUD admin
-- Reset password
-- Assign role
-
-## 13) Settings Umum
-- Identitas jemaat (nama, logo, tagline)
-- Warna tema (opsional)
-- SEO metadata (title, description)
-
-## 14) Audit Log (Opsional)
-- Log aktivitas admin
-
-## Navigasi Minimal (MVP)
-- Dashboard
-- Warta
-- Kegiatan
-- Ibadah
-- Album
-- Kontak
+## 10) Album
+Lokasi kode: `src/app/public/album/album.html` dan `.ts`
+- Fitur:
+  - Filter tag album (pill buttons).
+  - Grid album berdasarkan tag terpilih.
+  - Label “Baru” untuk tag tertentu.
+- Data (sesuai TS):
+  - tags: string[]
+  - selectedTag: string
+  - photos: { title: string; count: number; tag: string }[]
