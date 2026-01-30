@@ -1,5 +1,5 @@
 <aside
-  class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col gap-6 border-r border-default bg-surface px-4 pb-6 pt-6 transition-[width,transform] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0"
+  class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col gap-6 overflow-hidden border-r border-default bg-surface px-4 pb-6 pt-6 transition-[width,transform] duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0"
   [ngClass]="[
     isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
     isMini ? 'lg:w-20' : 'lg:w-64'
@@ -22,7 +22,7 @@
     </button>
   </div>
 
-  <div>
+  <div class="flex-1 min-h-0 overflow-y-auto pr-1">
     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-strong/50" [ngClass]="isMini ? 'lg:hidden' : ''">
       Konten Publik
     </p>
