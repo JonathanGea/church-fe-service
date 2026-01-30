@@ -1,0 +1,269 @@
+<section class="space-y-6">
+  <header class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <p class="text-xs uppercase tracking-[0.3em] text-strong/60">Aktivitas</p>
+      <h1 class="mt-2 text-2xl font-semibold text-strong">Kegiatan Jemaat</h1>
+      <p class="mt-2 text-sm text-strong/70">
+        Kelola daftar kegiatan, jadwal, dan informasi kontak untuk jemaat.
+      </p>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-xl border border-default bg-surface px-4 py-2 text-sm font-semibold text-strong transition hover:text-primary"
+        (click)="startCreate()"
+      >
+        <i class="fa-solid fa-rotate text-xs" aria-hidden="true"></i>
+        Reset Form
+      </button>
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        (click)="startCreate()"
+      >
+        <i class="fa-solid fa-plus text-xs" aria-hidden="true"></i>
+        Tambah Kegiatan
+      </button>
+    </div>
+  </header>
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <div class="rounded-2xl border border-default bg-surface p-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="relative flex min-w-[220px] flex-1">
+            <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-strong/50">
+              <i class="fa-solid fa-magnifying-glass text-xs" aria-hidden="true"></i>
+            </span>
+            <input
+              type="search"
+              placeholder="Cari judul, kategori, lokasi"
+              class="w-full rounded-xl border border-default bg-app py-2 pl-10 pr-3 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              [(ngModel)]="searchQuery"
+              name="searchKegiatan"
+            />
+          </div>
+          <select
+            class="rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            [(ngModel)]="statusFilter"
+            name="statusFilter"
+          >
+            <option value="Semua">Semua Status</option>
+            <option value="Terjadwal">Terjadwal</option>
+            <option value="Berlangsung">Berlangsung</option>
+            <option value="Selesai">Selesai</option>
+            <option value="Batal">Batal</option>
+          </select>
+          <select
+            class="rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            [(ngModel)]="kategoriFilter"
+            name="kategoriFilter"
+          >
+            <option *ngFor="let kategori of kategoriOptions" [value]="kategori">{{ kategori }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-default bg-surface">
+        <div class="flex items-center justify-between border-b border-default px-5 py-4">
+          <div>
+            <h2 class="text-lg font-semibold text-strong">Daftar Kegiatan</h2>
+            <p class="text-sm text-strong/60">Total {{ filteredKegiatan.length }} kegiatan</p>
+          </div>
+          <button type="button" class="text-sm font-semibold text-primary">Export</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-xs uppercase text-strong/50">
+              <tr>
+                <th class="px-5 py-3">Judul</th>
+                <th class="px-5 py-3">Kategori</th>
+                <th class="px-5 py-3">Tanggal/Waktu</th>
+                <th class="px-5 py-3">Lokasi</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Highlight</th>
+                <th class="px-5 py-3">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="text-strong/80">
+              <tr *ngFor="let item of filteredKegiatan" class="border-t border-default">
+                <td class="px-5 py-3">
+                  <div class="font-semibold text-strong">{{ item.judul }}</div>
+                  <div class="text-xs text-strong/60">{{ item.kontak }}</div>
+                </td>
+                <td class="px-5 py-3">{{ item.kategori }}</td>
+                <td class="px-5 py-3">{{ item.tanggalWaktu }}</td>
+                <td class="px-5 py-3">{{ item.lokasi }}</td>
+                <td class="px-5 py-3">
+                  <span class="rounded-full bg-app px-3 py-1 text-xs font-semibold text-strong/70">
+                    {{ item.status }}
+                  </span>
+                </td>
+                <td class="px-5 py-3">
+                  <span
+                    class="rounded-full px-3 py-1 text-xs font-semibold"
+                    [ngClass]="item.highlight ? 'bg-primary/15 text-primary' : 'bg-app text-strong/60'"
+                  >
+                    {{ item.highlight ? 'Ya' : 'Tidak' }}
+                  </span>
+                </td>
+                <td class="px-5 py-3">
+                  <div class="flex items-center gap-2">
+                    <button
+                      type="button"
+                      class="rounded-lg border border-default px-3 py-1 text-xs text-strong transition hover:text-primary"
+                      (click)="startEdit(item)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-lg border border-default px-3 py-1 text-xs text-strong transition hover:text-primary"
+                    >
+                      Arsip
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="filteredKegiatan.length === 0">
+                <td colspan="7" class="px-5 py-6 text-center text-sm text-strong/60">
+                  Tidak ada kegiatan yang cocok dengan filter.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border border-default bg-surface p-5">
+      <div class="flex items-start justify-between gap-2">
+        <div>
+          <h2 class="text-lg font-semibold text-strong">
+            {{ formMode === 'create' ? 'Tambah Kegiatan' : 'Edit Kegiatan' }}
+          </h2>
+          <p class="text-sm text-strong/60">Lengkapi detail kegiatan dan highlight.</p>
+        </div>
+        <button type="button" class="text-xs font-semibold text-primary" (click)="startCreate()">
+          Buat Baru
+        </button>
+      </div>
+
+      <form class="mt-4 space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Judul Kegiatan</label>
+          <input
+            type="text"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="Contoh: Retret Pemuda"
+            [(ngModel)]="formData.judul"
+            name="judul"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Kategori</label>
+          <input
+            type="text"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="Pemuda, Pelayanan, Pembinaan"
+            [(ngModel)]="formData.kategori"
+            name="kategori"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Tanggal & Waktu</label>
+          <input
+            type="datetime-local"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            [(ngModel)]="formData.tanggalWaktu"
+            name="tanggalWaktu"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Lokasi</label>
+          <input
+            type="text"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="Nama tempat atau alamat"
+            [(ngModel)]="formData.lokasi"
+            name="lokasi"
+          />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Status</label>
+          <select
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            [(ngModel)]="formData.status"
+            name="status"
+          >
+            <option value="Terjadwal">Terjadwal</option>
+            <option value="Berlangsung">Berlangsung</option>
+            <option value="Selesai">Selesai</option>
+            <option value="Batal">Batal</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Deskripsi</label>
+          <textarea
+            rows="3"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="Ringkasan kegiatan"
+            [(ngModel)]="formData.deskripsi"
+            name="deskripsi"
+          ></textarea>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Agenda</label>
+          <textarea
+            rows="3"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="Rundown atau poin agenda"
+            [(ngModel)]="formData.agenda"
+            name="agenda"
+          ></textarea>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-strong/70">Kontak</label>
+          <input
+            type="text"
+            class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm text-strong placeholder:text-strong/50 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="Nama + nomor telepon"
+            [(ngModel)]="formData.kontak"
+            name="kontak"
+          />
+        </div>
+        <div class="flex items-center justify-between rounded-xl border border-default bg-app px-3 py-2">
+          <div>
+            <p class="text-sm font-semibold text-strong">Highlight</p>
+            <p class="text-xs text-strong/60">Tampilkan sebagai kegiatan unggulan.</p>
+          </div>
+          <label class="relative inline-flex items-center">
+            <input type="checkbox" class="peer sr-only" [(ngModel)]="formData.highlight" name="highlight" />
+            <span
+              class="peer h-6 w-11 rounded-full border border-default bg-surface transition peer-checked:bg-primary/20"
+            ></span>
+            <span
+              class="absolute left-1 top-1 h-4 w-4 rounded-full bg-primary transition peer-checked:translate-x-5"
+            ></span>
+          </label>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <button
+            type="button"
+            class="flex-1 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          >
+            Simpan Kegiatan
+          </button>
+          <button
+            type="button"
+            class="flex-1 rounded-xl border border-default px-4 py-2 text-sm font-semibold text-strong transition hover:text-primary"
+            (click)="startCreate()"
+          >
+            Batal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -9,7 +9,7 @@
     <div class="flex items-center gap-3">
       <div class="h-10 w-10 rounded-2xl bg-primary/15"></div>
       <div class="text-sm font-semibold text-strong" [ngClass]="isMini ? 'lg:hidden' : ''">
-        Material Admin
+        Admin Jemaat
       </div>
     </div>
     <button
@@ -24,61 +24,154 @@
 
   <div>
     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-strong/50" [ngClass]="isMini ? 'lg:hidden' : ''">
-      Dashboards
+      Navigasi Utama
     </p>
     <nav class="mt-4 flex flex-col gap-2">
       <a
-        routerLink="/admin/analytics"
+        routerLink="/admin/dashboard"
         routerLinkActive="bg-primary/15 text-primary"
+        [routerLinkActiveOptions]="{ exact: true }"
         class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
-        title="Analytics"
+        title="Dashboard"
         (click)="closeMobile.emit()"
       >
         <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <i class="fa-solid fa-chart-column text-sm" aria-hidden="true"></i>
+          <i class="fa-solid fa-chart-line text-sm" aria-hidden="true"></i>
         </span>
-        <span [ngClass]="isMini ? 'lg:hidden' : ''">Analytics</span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Dashboard</span>
       </a>
       <a
-        routerLink="/admin/overview"
+        routerLink="/admin/warta"
         routerLinkActive="bg-primary/15 text-primary"
         class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
-        title="Overview"
-        (click)="closeMobile.emit()"
-      >
-        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <i class="fa-solid fa-border-all text-sm" aria-hidden="true"></i>
-        </span>
-        <span [ngClass]="isMini ? 'lg:hidden' : ''">Overview</span>
-      </a>
-      <a
-        routerLink="/admin/reports"
-        routerLinkActive="bg-primary/15 text-primary"
-        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
-        title="Reports"
+        title="Warta"
         (click)="closeMobile.emit()"
       >
         <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <i class="fa-solid fa-file-lines text-sm" aria-hidden="true"></i>
         </span>
-        <span [ngClass]="isMini ? 'lg:hidden' : ''">Reports</span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Warta</span>
       </a>
       <a
-        routerLink="/admin/automation"
+        routerLink="/admin/kegiatan"
         routerLinkActive="bg-primary/15 text-primary"
         class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
-        title="Automation"
+        title="Kegiatan"
         (click)="closeMobile.emit()"
       >
         <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <i class="fa-solid fa-bolt text-sm" aria-hidden="true"></i>
+          <i class="fa-solid fa-calendar-days text-sm" aria-hidden="true"></i>
         </span>
-        <span [ngClass]="isMini ? 'lg:hidden' : ''">Automation</span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Kegiatan</span>
+      </a>
+      <a
+        routerLink="/admin/ibadah"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Ibadah"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-church text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Ibadah</span>
+      </a>
+      <a
+        routerLink="/admin/album"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Album"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-images text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Album</span>
+      </a>
+      <a
+        routerLink="/admin/kontak"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Kontak"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-address-book text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Kontak</span>
+      </a>
+    </nav>
+  </div>
+
+  <div>
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-strong/50" [ngClass]="isMini ? 'lg:hidden' : ''">
+      Menu Lanjutan
+    </p>
+    <nav class="mt-4 flex flex-col gap-2">
+      <a
+        routerLink="/admin/tentang-jemaat"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Tentang Jemaat"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-landmark text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Tentang Jemaat</span>
+      </a>
+      <a
+        routerLink="/admin/pelayanan"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Pelayanan"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-people-group text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Pelayanan</span>
+      </a>
+      <a
+        routerLink="/admin/persembahan"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Persembahan"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-hand-holding-heart text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Persembahan</span>
+      </a>
+      <a
+        routerLink="/admin/user-management"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="User Management"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-users text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">User Management</span>
+      </a>
+      <a
+        routerLink="/admin/settings"
+        routerLinkActive="bg-primary/15 text-primary"
+        class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-strong/80 transition hover:bg-primary/10 hover:text-primary"
+        title="Settings"
+        (click)="closeMobile.emit()"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <i class="fa-solid fa-gear text-sm" aria-hidden="true"></i>
+        </span>
+        <span [ngClass]="isMini ? 'lg:hidden' : ''">Settings</span>
       </a>
     </nav>
   </div>
 
   <div class="mt-auto rounded-2xl bg-primary/10 p-4 text-xs text-strong/70" [ngClass]="isMini ? 'lg:hidden' : ''">
-    Need help? Visit our docs for onboarding guides.
+    Navigasi admin sudah siap untuk pengembangan lanjutan.
   </div>
 </aside>

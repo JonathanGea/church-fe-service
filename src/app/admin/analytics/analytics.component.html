@@ -1,161 +1,66 @@
 <section class="space-y-8">
-  <header class="space-y-2">
-    <h2 class="text-2xl font-semibold text-strong">Analytics Overview</h2>
-    <p class="text-sm text-strong/70">Monitor key metrics, sales trends, and user activity.</p>
+  <header class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="text-xs uppercase tracking-[0.3em] text-strong/60">Dashboard</p>
+      <h2 class="mt-2 text-2xl font-semibold text-strong">Analytics Admin</h2>
+      <p class="mt-2 text-sm text-strong/70">Ringkasan konten dan aktivitas minggu ini.</p>
+    </div>
+    <div class="rounded-2xl border border-default bg-surface px-4 py-3 text-sm text-strong/70">
+      <span class="font-semibold text-strong">Update terakhir</span>
+      <span class="ml-2">30 Jan 2026, 09:30</span>
+    </div>
   </header>
 
-  <div class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="text-sm font-semibold text-strong">Website Views</div>
-      <p class="mt-1 text-sm text-strong/60">Last Campaign Performance</p>
-      <div class="mt-4 h-44 rounded-2xl bg-app"></div>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="text-sm font-semibold text-strong">Daily Sales</div>
-      <p class="mt-1 text-sm text-strong/60">(+15%) increase in today sales.</p>
-      <div class="mt-4 h-44 rounded-2xl bg-app"></div>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="text-sm font-semibold text-strong">Completed Tasks</div>
-      <p class="mt-1 text-sm text-strong/60">Last Campaign Performance</p>
-      <div class="mt-4 h-44 rounded-2xl bg-app"></div>
-    </div>
-  </div>
-
-  <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="flex items-center justify-between">
-        <p class="text-xs uppercase text-strong/50">Bookings</p>
-        <span class="rounded-xl bg-primary/15 px-2 py-1 text-xs font-semibold text-primary">+12%</span>
-      </div>
-      <div class="mt-3 text-2xl font-semibold text-strong">281</div>
-      <p class="text-xs text-strong/60">than last week</p>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="flex items-center justify-between">
-        <p class="text-xs uppercase text-strong/50">Today's Users</p>
-        <span class="rounded-xl bg-primary/15 px-2 py-1 text-xs font-semibold text-primary">+3%</span>
-      </div>
-      <div class="mt-3 text-2xl font-semibold text-strong">2,300</div>
-      <p class="text-xs text-strong/60">than yesterday</p>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="flex items-center justify-between">
-        <p class="text-xs uppercase text-strong/50">Revenue</p>
-        <span class="rounded-xl bg-primary/15 px-2 py-1 text-xs font-semibold text-primary">+8%</span>
-      </div>
-      <div class="mt-3 text-2xl font-semibold text-strong">$34,200</div>
-      <p class="text-xs text-strong/60">since last month</p>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="flex items-center justify-between">
-        <p class="text-xs uppercase text-strong/50">Followers</p>
-        <span class="rounded-xl bg-primary/15 px-2 py-1 text-xs font-semibold text-primary">+5%</span>
-      </div>
-      <div class="mt-3 text-2xl font-semibold text-strong">+91</div>
-      <p class="text-xs text-strong/60">just updated</p>
+  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div
+      *ngFor="let stat of stats"
+      class="rounded-2xl border border-default bg-surface p-4"
+    >
+      <div class="text-xs uppercase tracking-[0.2em] text-strong/50">{{ stat.title }}</div>
+      <div class="mt-3 text-2xl font-semibold text-strong">{{ stat.value }}</div>
+      <p class="mt-2 text-sm text-strong/70">{{ stat.detail }}</p>
+      <p class="mt-1 text-xs text-primary">{{ stat.accent }}</p>
     </div>
   </div>
 
   <div class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="h-36 rounded-2xl bg-gradient-to-br from-primary/30 to-primary/10"></div>
-      <div class="mt-4">
-        <h3 class="text-lg font-semibold text-strong">Cozy Loft</h3>
-        <p class="text-sm text-strong/60">2 bedroom, 2 bath, 1200 sqft</p>
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <span class="text-sm font-semibold text-primary">$1,200/night</span>
-        <div class="flex items-center gap-2">
-          <button class="rounded-lg border border-default p-2 text-strong hover:text-primary">
-            <i class="fa-solid fa-layer-group text-sm" aria-hidden="true"></i>
-          </button>
-          <button class="rounded-lg border border-default p-2 text-strong hover:text-primary">
-            <i class="fa-solid fa-up-right-and-down-left-from-center text-sm" aria-hidden="true"></i>
-          </button>
+    <div class="rounded-2xl border border-default bg-surface p-5" *ngFor="let action of actions">
+      <div class="flex items-center justify-between">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <i class="fa-solid {{ action.icon }}" aria-hidden="true"></i>
         </div>
+        <span class="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Quick action</span>
       </div>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="h-36 rounded-2xl bg-gradient-to-br from-primary/30 to-primary/10"></div>
-      <div class="mt-4">
-        <h3 class="text-lg font-semibold text-strong">City Apartment</h3>
-        <p class="text-sm text-strong/60">Downtown, city view</p>
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <span class="text-sm font-semibold text-primary">$980/night</span>
-        <div class="flex items-center gap-2">
-          <button class="rounded-lg border border-default p-2 text-strong hover:text-primary">
-            <i class="fa-solid fa-layer-group text-sm" aria-hidden="true"></i>
-          </button>
-          <button class="rounded-lg border border-default p-2 text-strong hover:text-primary">
-            <i class="fa-solid fa-up-right-and-down-left-from-center text-sm" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="rounded-2xl bg-surface p-5 shadow-sm">
-      <div class="h-36 rounded-2xl bg-gradient-to-br from-primary/30 to-primary/10"></div>
-      <div class="mt-4">
-        <h3 class="text-lg font-semibold text-strong">Forest Cabin</h3>
-        <p class="text-sm text-strong/60">Escape to nature, 3 beds</p>
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <span class="text-sm font-semibold text-primary">$760/night</span>
-        <div class="flex items-center gap-2">
-          <button class="rounded-lg border border-default p-2 text-strong hover:text-primary">
-            <i class="fa-solid fa-layer-group text-sm" aria-hidden="true"></i>
-          </button>
-          <button class="rounded-lg border border-default p-2 text-strong hover:text-primary">
-            <i class="fa-solid fa-up-right-and-down-left-from-center text-sm" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
+      <h3 class="mt-4 text-lg font-semibold text-strong">{{ action.title }}</h3>
+      <p class="mt-2 text-sm text-strong/70">{{ action.description }}</p>
+      <button
+        type="button"
+        class="mt-4 inline-flex items-center gap-2 rounded-xl border border-default px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+      >
+        {{ action.cta }}
+        <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+      </button>
     </div>
   </div>
 
-  <div class="rounded-2xl bg-surface p-5 shadow-sm">
-    <div class="flex items-center justify-between">
-      <h3 class="text-lg font-semibold text-strong">Sales by Country</h3>
-      <button class="text-sm font-semibold text-primary">View report</button>
+  <div class="rounded-2xl border border-default bg-surface p-5">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <h3 class="text-lg font-semibold text-strong">Ringkasan Minggu Ini</h3>
+      <span class="text-sm text-strong/60">30 Jan 2026 - 5 Feb 2026</span>
     </div>
-    <div class="mt-4 overflow-x-auto">
-      <table class="w-full text-left text-sm">
-        <thead class="text-xs uppercase text-strong/50">
-          <tr>
-            <th class="pb-3">Country</th>
-            <th class="pb-3">Sales</th>
-            <th class="pb-3">Value</th>
-            <th class="pb-3">Bounce</th>
-          </tr>
-        </thead>
-        <tbody class="text-strong/80">
-          <tr class="border-t border-default">
-            <td class="py-3">🇺🇸 United States</td>
-            <td class="py-3">250</td>
-            <td class="py-3">$15,230</td>
-            <td class="py-3">29.9%</td>
-          </tr>
-          <tr class="border-t border-default">
-            <td class="py-3">🇩🇪 Germany</td>
-            <td class="py-3">120</td>
-            <td class="py-3">$8,400</td>
-            <td class="py-3">23.2%</td>
-          </tr>
-          <tr class="border-t border-default">
-            <td class="py-3">🇬🇧 United Kingdom</td>
-            <td class="py-3">98</td>
-            <td class="py-3">$6,850</td>
-            <td class="py-3">19.1%</td>
-          </tr>
-          <tr class="border-t border-default">
-            <td class="py-3">🇧🇷 Brazil</td>
-            <td class="py-3">73</td>
-            <td class="py-3">$5,120</td>
-            <td class="py-3">32.4%</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="mt-4 grid gap-4 md:grid-cols-3">
+      <div class="rounded-xl border border-default bg-app p-4">
+        <p class="text-xs uppercase tracking-[0.2em] text-strong/50">Warta</p>
+        <p class="mt-2 text-sm text-strong/80">Warta Minggu Adven III siap diunduh.</p>
+      </div>
+      <div class="rounded-xl border border-default bg-app p-4">
+        <p class="text-xs uppercase tracking-[0.2em] text-strong/50">Kegiatan</p>
+        <p class="mt-2 text-sm text-strong/80">Latihan paduan suara dan kunjungan diakonia.</p>
+      </div>
+      <div class="rounded-xl border border-default bg-app p-4">
+        <p class="text-xs uppercase tracking-[0.2em] text-strong/50">Album</p>
+        <p class="mt-2 text-sm text-strong/80">Album Retret Jemaat siap ditinjau.</p>
+      </div>
     </div>
   </div>
 </section>

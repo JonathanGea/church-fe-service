@@ -20,8 +20,8 @@ import { filter } from 'rxjs/operators';
   styleUrl: './admin-navbar.component.css'
 })
 export class AdminNavbarComponent {
-  @Input() pageTitle = 'Analytics';
-  @Input() breadcrumbs: string[] = ['Dashboards', 'Analytics'];
+  @Input() pageTitle = 'Dashboard';
+  @Input() breadcrumbs: string[] = ['Admin', 'Dashboard'];
   @Input() isMobileSidebarOpen = false;
   @Output() onToggleCollapse = new EventEmitter<void>();
   @Output() onOpenMobileSidebar = new EventEmitter<void>();

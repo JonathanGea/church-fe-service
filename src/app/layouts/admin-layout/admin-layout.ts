@@ -26,8 +26,8 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './admin-layout.css'
 })
 export class AdminLayoutComponent {
-  pageTitle = 'Analytics';
-  breadcrumbs: string[] = ['Dashboards', 'Analytics'];
+  pageTitle = 'Dashboard';
+  breadcrumbs: string[] = ['Admin', 'Dashboard'];
   isSidebarCollapsed = false;
   mobileSidebarOpen = false;
   isConfiguratorOpen = false;
