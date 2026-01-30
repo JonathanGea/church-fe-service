@@ -1,5 +1,28 @@
-<footer class="border-t border-white/10">
-  <div class="mx-auto max-w-6xl px-6 py-6 text-xs text-white/50">
-    Public landing site layout
+<footer class="border-t border-bnkpn-border bg-bnkpn-offwhite">
+  <div>
+    <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-bnkpn-slate">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface/90 p-6 backdrop-blur" *ngIf="contact as info">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div class="font-semibold text-bnkpn-charcoal">{{ info.hero.title }}</div>
+            <div class="mt-1">{{ info.address }} - {{ info.officeContacts.phone }}</div>
+            <div class="mt-1">Email: {{ info.officeContacts.email }}</div>
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <a class="hover:text-bnkpn-charcoal" routerLink="/warta">Warta</a>
+            <a class="hover:text-bnkpn-charcoal" routerLink="/ibadah">Jadwal</a>
+            <a class="hover:text-bnkpn-charcoal" routerLink="/kontak">Kontak</a>
+            <a class="hover:text-bnkpn-charcoal" routerLink="/album">Album</a>
+            <a class="hover:text-bnkpn-charcoal" href="#">Kebijakan Privasi</a>
+            <a class="hover:text-bnkpn-charcoal" href="#">Admin</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>© {{ currentYear }} {{ contact?.hero?.title || 'BNKP Jemaat' }}</div>
+        <div class="text-xs">Desain BNKP Classic - Navy, Offwhite, Gold</div>
+      </div>
+    </div>
   </div>
 </footer>

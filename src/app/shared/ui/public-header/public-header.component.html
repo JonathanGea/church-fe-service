@@ -1,66 +1,199 @@
-<header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+<div class="border-b border-bnkpn-border bg-bnkpn-offwhite/70" *ngIf="contact as info">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs text-bnkpn-slate sm:text-sm">
+    <div class="flex flex-wrap items-center gap-2">
+      <span>{{ info.address }}</span>
+      <span class="hidden sm:inline">-</span>
+      <a class="hover:text-bnkpn-charcoal" [href]="'tel:' + info.officeContacts.phone">
+        {{ info.officeContacts.phone }}
+      </a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a class="hover:text-bnkpn-charcoal" [href]="info.officeContacts.whatsapp">
+        {{ info.ctaLabels.whatsappLabel }}
+      </a>
+      <a class="hover:text-bnkpn-charcoal" [href]="info.map.mapUrl">
+        {{ info.ctaLabels.mapLabel }}
+      </a>
+    </div>
+  </div>
+</div>
+
+<header class="sticky top-0 z-50 border-b border-bnkpn-border bg-bnkpn-offwhite/85 backdrop-blur">
   <div class="mx-auto max-w-6xl px-4">
     <div class="flex h-16 items-center justify-between">
       <a routerLink="/" class="flex items-center gap-3">
-        <div class="grid h-10 w-10 place-items-center rounded-xl border border-white/15 bg-white/5 shadow-lg shadow-slate-900/20">
-          <i class="fa-solid fa-compass text-lg text-white/90" aria-hidden="true"></i>
+        <div class="grid h-10 w-10 place-items-center rounded-xl border border-bnkpn-border bg-bnkpn-surface shadow-soft">
+          <img src="/logo.png" alt="BNKP logo" class="h-7 w-7 object-contain" />
         </div>
         <div class="leading-tight">
-          <div class="text-sm font-semibold tracking-wide text-white">Fe-Service</div>
-          <div class="text-xs text-white/60">Public Platform</div>
+          <div class="text-sm font-semibold tracking-wide text-bnkpn-navy">BNKP Jemaat ...</div>
+          <div class="text-xs text-bnkpn-slate">Informasi Ibadah dan Pelayanan</div>
         </div>
       </a>
 
       <nav class="hidden items-center gap-1 lg:flex">
         <a
           routerLink="/"
-          routerLinkActive="bg-white/10 text-white"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
         >
-          Home
+          Beranda
         </a>
         <a
-          routerLink="/admin"
-          routerLinkActive="bg-white/10 text-white"
-          class="rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          routerLink="/tentang"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
         >
-          Admin
+          Tentang
+        </a>
+        <a
+          routerLink="/ibadah"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
+        >
+          Ibadah
+        </a>
+        <a
+          routerLink="/warta"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
+        >
+          Warta
+        </a>
+        <a
+          routerLink="/kegiatan"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
+        >
+          Kegiatan
+        </a>
+        <a
+          routerLink="/album"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
+        >
+          Album
+        </a>
+        <a
+          routerLink="/pelayanan"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
+        >
+          Pelayanan
+        </a>
+        <a
+          routerLink="/kontak"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/70"
+        >
+          Kontak
+        </a>
+        <a
+          routerLink="/persembahan"
+          routerLinkActive="ring-2 ring-bnkpn-gold/60"
+          class="ml-2 inline-flex items-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+        >
+          Persembahan
         </a>
       </nav>
 
       <button
         type="button"
-        class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white lg:hidden"
+        class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-3 py-2 hover:bg-bnkpn-offwhite lg:hidden"
         [attr.aria-expanded]="isMobileMenuOpen"
-        aria-controls="publicMobileMenu"
+        aria-controls="mobileMenu"
         (click)="toggleMobileMenu()"
       >
-        <span class="sr-only">Open menu</span>
-        <i class="fa-solid fa-bars text-base" aria-hidden="true"></i>
+        <span class="sr-only">Buka menu</span>
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
       </button>
     </div>
 
     <div
-      id="publicMobileMenu"
-      class="overflow-hidden pb-4 transition-[max-height,opacity,transform] duration-300 ease-out lg:hidden"
-      [ngClass]="isMobileMenuOpen ? 'max-h-64 opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-2'"
+      id="mobileMenu"
+      class="pb-4 transition-[max-height,opacity,transform] duration-300 ease-out lg:hidden overscroll-contain"
+      [ngClass]="
+        isMobileMenuOpen
+          ? 'max-h-[calc(100vh-4rem)] overflow-y-auto opacity-100 translate-y-0'
+          : 'max-h-0 overflow-hidden opacity-0 -translate-y-2'
+      "
     >
       <div class="space-y-2 pt-2">
         <a
           routerLink="/"
-          routerLinkActive="bg-white/10 text-white"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="block rounded-xl px-3 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
         >
-          Home
+          Beranda
         </a>
         <a
-          routerLink="/admin"
-          routerLinkActive="bg-white/10 text-white"
-          class="block rounded-xl px-3 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          routerLink="/tentang"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
         >
-          Admin
+          Tentang
+        </a>
+        <a
+          routerLink="/ibadah"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
+        >
+          Ibadah
+        </a>
+        <a
+          routerLink="/warta"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
+        >
+          Warta
+        </a>
+        <a
+          routerLink="/kegiatan"
+          routerLinkActive="text-bnkpn-navy underline decoration-bnkpn-gold underline-offset-8"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
+        >
+          Kegiatan
+        </a>
+        <a
+          routerLink="/album"
+          routerLinkActive="bg-white/70 text-bnkpn-navy"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
+        >
+          Album
+        </a>
+        <a
+          routerLink="/pelayanan"
+          routerLinkActive="bg-white/70 text-bnkpn-navy"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
+        >
+          Pelayanan
+        </a>
+        <a
+          routerLink="/kontak"
+          routerLinkActive="bg-white/70 text-bnkpn-navy"
+          class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-white/70"
+          (click)="closeMobileMenu()"
+        >
+          Kontak
+        </a>
+        <a
+          routerLink="/persembahan"
+          routerLinkActive="ring-2 ring-bnkpn-gold/60"
+          class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+          (click)="closeMobileMenu()"
+        >
+          Persembahan
         </a>
       </div>
     </div>

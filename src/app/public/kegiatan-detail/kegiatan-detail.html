@@ -1,0 +1,109 @@
+<app-loading-state *ngIf="isLoading"></app-loading-state>
+
+<app-error-state
+  *ngIf="!isLoading && errorMessage"
+  [message]="errorMessage"
+  (retry)="selected && loadDetail(selected.id)"
+></app-error-state>
+
+<app-empty-state
+  *ngIf="!isLoading && !errorMessage && notFound"
+  title="Kegiatan tidak ditemukan"
+  description="Silakan kembali ke daftar kegiatan dan pilih kegiatan yang tersedia."
+></app-empty-state>
+
+<ng-container *ngIf="!isLoading && !errorMessage && !notFound && selected as activity">
+  <main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
+    <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+        <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
+        {{ activity.category }}
+      </div>
+      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">{{ activity.title }}</h1>
+      <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
+        {{ activity.summary }}
+      </p>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-3">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 class="font-heading text-3xl">Detail Kegiatan</h2>
+            <p class="mt-2 text-bnkpn-slate">Informasi jadwal, lokasi, dan agenda kegiatan.</p>
+          </div>
+          <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+            {{ activity.status }}
+          </span>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
+            <div class="text-xs text-bnkpn-slate">Tanggal</div>
+            <div class="mt-1 font-semibold">{{ activity.dateLabel }}</div>
+          </div>
+          <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
+            <div class="text-xs text-bnkpn-slate">Waktu</div>
+            <div class="mt-1 font-semibold">{{ activity.timeLabel }}</div>
+          </div>
+          <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5 sm:col-span-2">
+            <div class="text-xs text-bnkpn-slate">Lokasi</div>
+            <div class="mt-1 font-semibold">{{ activity.location }}</div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold">Agenda</h3>
+          <ul class="mt-3 space-y-2 text-sm text-bnkpn-slate">
+            <li *ngFor="let item of activity.agenda" class="rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2">
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold">Highlight</h3>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-bnkpn-slate">
+            <li *ngFor="let point of activity.highlights">{{ point }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <aside class="grid gap-6">
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <h3 class="font-heading text-2xl">Kontak</h3>
+          <p class="mt-2 text-bnkpn-slate">Hubungi koordinator untuk konfirmasi kehadiran.</p>
+          <div class="mt-4 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
+            <div class="text-xs text-bnkpn-slate">Penanggung jawab</div>
+            <div class="mt-1 font-semibold">{{ activity.contactName }}</div>
+            <div class="mt-1 text-sm text-bnkpn-slate">{{ activity.contactPhone }}</div>
+          </div>
+          <a
+            href="#"
+            class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+          >
+            Chat Admin
+          </a>
+        </div>
+
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <h3 class="font-heading text-2xl">Tautan</h3>
+          <div class="mt-4 space-y-2">
+            <a
+              routerLink="/kegiatan"
+              class="inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+            >
+              Kembali ke Kegiatan
+            </a>
+            <a
+              routerLink="/kontak"
+              class="inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite"
+            >
+              Kontak Kantor
+            </a>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</ng-container>

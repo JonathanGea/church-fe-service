@@ -1,0 +1,105 @@
+<app-loading-state *ngIf="isLoading"></app-loading-state>
+
+<app-error-state
+  *ngIf="!isLoading && errorMessage"
+  [message]="errorMessage"
+  (retry)="loadMinistry()"
+></app-error-state>
+
+<app-empty-state
+  *ngIf="!isLoading && !errorMessage && !ministry"
+  title="Data pelayanan belum tersedia"
+  description="Konten pelayanan jemaat belum diisi."
+></app-empty-state>
+
+<ng-container *ngIf="!isLoading && !errorMessage && ministry as content">
+  <main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
+    <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+        <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
+        {{ content.hero.label }}
+      </div>
+      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">{{ content.hero.title }}</h1>
+      <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
+        {{ content.hero.description }}
+      </p>
+    </section>
+
+    <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="font-heading text-3xl">{{ content.kategorialSection.title }}</h2>
+          <p class="mt-2 text-bnkpn-slate">{{ content.kategorialSection.description }}</p>
+        </div>
+        <a
+          [routerLink]="content.kategorialCta.url"
+          class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite"
+        >
+          {{ content.kategorialCta.label }}
+        </a>
+      </div>
+
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <article
+          *ngFor="let item of content.kategorial || []"
+          class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5"
+        >
+          <div class="text-xs text-bnkpn-slate">{{ item.label }}</div>
+          <h3 class="mt-1 text-lg font-semibold">{{ item.name }}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bnkpn-slate">{{ item.description }}</p>
+          <div class="mt-4 rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm">
+            <span class="text-bnkpn-slate">Jadwal:</span> {{ item.schedule }}
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <h2 class="font-heading text-3xl">{{ content.fungsionalSection.title }}</h2>
+      <p class="mt-2 text-bnkpn-slate">{{ content.fungsionalSection.description }}</p>
+
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          *ngFor="let item of content.fungsional || []"
+          class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5"
+        >
+          <div class="text-xs text-bnkpn-slate">{{ item.label }}</div>
+          <div class="mt-1 font-semibold">{{ item.name }}</div>
+          <p class="mt-2 text-sm text-bnkpn-slate">{{ item.description }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8" id="gabung">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h2 class="font-heading text-3xl">{{ content.ctaSection.title }}</h2>
+          <p class="mt-2 text-bnkpn-slate">
+            {{ content.ctaSection.description }}
+          </p>
+        </div>
+        <div class="flex flex-col gap-2 sm:flex-row">
+          <a
+            [routerLink]="content.ctaSection.primaryLink.url"
+            class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-5 py-3 text-sm font-semibold text-white hover:opacity-95"
+          >
+            {{ content.ctaSection.primaryLink.label }}
+          </a>
+          <a
+            [routerLink]="content.ctaSection.secondaryLink.url"
+            class="inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-5 py-3 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+          >
+            {{ content.ctaSection.secondaryLink.label }}
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-6 rounded-xl2 border border-bnkpn-gold bg-bnkpn-offwhite p-5">
+        <div class="text-xs text-bnkpn-slate">Catatan</div>
+        <p class="mt-2 text-sm leading-relaxed text-bnkpn-slate">
+          {{ content.ctaSection.note }}
+        </p>
+      </div>
+    </section>
+  </main>
+</ng-container>

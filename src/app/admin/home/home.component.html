@@ -1,0 +1,482 @@
+<section class="space-y-6">
+  <header class="space-y-1">
+    <h2 class="text-2xl font-semibold text-strong">Beranda</h2>
+    <p class="text-sm text-strong/70">Kelola konten halaman beranda public.</p>
+  </header>
+
+  <app-loading-state *ngIf="isLoading"></app-loading-state>
+
+  <app-error-state
+    *ngIf="!isLoading && errorMessage"
+    [message]="errorMessage"
+    (retry)="loadHome()"
+  ></app-error-state>
+
+  <ng-container *ngIf="!isLoading && !errorMessage">
+    <app-empty-state
+      *ngIf="!hasData"
+      title="Data beranda belum tersedia"
+      description="Lengkapi form berikut lalu simpan untuk menampilkan data di halaman public."
+    ></app-empty-state>
+
+    <app-status-banner [variant]="statusVariant" [message]="statusMessage"></app-status-banner>
+
+    <div class="space-y-6">
+      <section class="rounded-2xl border border-default bg-surface p-6 shadow-sm">
+        <div class="flex items-center justify-between gap-4">
+          <h3 class="text-lg font-semibold text-strong">Hero</h3>
+        </div>
+
+        <div class="mt-5 grid gap-4 lg:grid-cols-2">
+          <label class="block text-sm text-strong/70">
+            Judul
+            <input
+              type="text"
+              [(ngModel)]="home.hero.title"
+              name="heroTitle"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-4 py-3 text-sm text-strong"
+              required
+            />
+          </label>
+          <label class="block text-sm text-strong/70 lg:col-span-2">
+            Deskripsi
+            <textarea
+              rows="3"
+              [(ngModel)]="home.hero.description"
+              name="heroDescription"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-4 py-3 text-sm text-strong"
+              required
+            ></textarea>
+          </label>
+        </div>
+
+        <div class="mt-6 grid gap-4 lg:grid-cols-3">
+          <div class="rounded-2xl border border-default bg-app p-4">
+            <div class="text-sm font-semibold text-strong">CTA Utama</div>
+            <label class="mt-3 block text-xs text-strong/60">
+              Label
+              <input
+                type="text"
+                [(ngModel)]="home.hero.ctaPrimary.label"
+                name="heroPrimaryLabel"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+            <label class="mt-3 block text-xs text-strong/60">
+              URL
+              <input
+                type="text"
+                [(ngModel)]="home.hero.ctaPrimary.url"
+                name="heroPrimaryUrl"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+          </div>
+          <div class="rounded-2xl border border-default bg-app p-4">
+            <div class="text-sm font-semibold text-strong">CTA Kedua</div>
+            <label class="mt-3 block text-xs text-strong/60">
+              Label
+              <input
+                type="text"
+                [(ngModel)]="home.hero.ctaSecondary!.label"
+                name="heroSecondaryLabel"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+            <label class="mt-3 block text-xs text-strong/60">
+              URL
+              <input
+                type="text"
+                [(ngModel)]="home.hero.ctaSecondary!.url"
+                name="heroSecondaryUrl"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+          </div>
+          <div class="rounded-2xl border border-default bg-app p-4">
+            <div class="text-sm font-semibold text-strong">CTA Ketiga</div>
+            <label class="mt-3 block text-xs text-strong/60">
+              Label
+              <input
+                type="text"
+                [(ngModel)]="home.hero.ctaTertiary!.label"
+                name="heroTertiaryLabel"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+            <label class="mt-3 block text-xs text-strong/60">
+              URL
+              <input
+                type="text"
+                [(ngModel)]="home.hero.ctaTertiary!.url"
+                name="heroTertiaryUrl"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-default bg-surface p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 class="text-lg font-semibold text-strong">Ringkasan Jadwal</h3>
+            <p class="text-sm text-strong/60">Maksimal 3 kartu ringkasan jadwal.</p>
+          </div>
+          <button
+            type="button"
+            class="rounded-xl border border-default px-4 py-2 text-sm font-semibold text-strong hover:bg-app disabled:cursor-not-allowed disabled:opacity-60"
+            [disabled]="!canAddSchedule"
+            (click)="addScheduleItem()"
+          >
+            Tambah Kartu
+          </button>
+        </div>
+
+        <div class="mt-4 grid gap-4">
+          <div
+            *ngFor="let item of home.scheduleSummary; let i = index; trackBy: trackScheduleItem"
+            class="rounded-2xl border border-default bg-app p-4"
+          >
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-sm font-semibold text-strong">Kartu {{ i + 1 }}</div>
+              <button
+                type="button"
+                class="text-xs font-semibold text-red-600 hover:underline"
+                (click)="removeScheduleItem(i)"
+              >
+                Hapus
+              </button>
+            </div>
+            <div class="mt-3 grid gap-3 md:grid-cols-2">
+              <label class="block text-xs text-strong/60">
+                Hari
+                <input
+                  type="text"
+                  [(ngModel)]="item.day"
+                  name="scheduleDay-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+              <label class="block text-xs text-strong/60">
+                Nama Ibadah
+                <input
+                  type="text"
+                  [(ngModel)]="item.title"
+                  name="scheduleTitle-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+              <label class="block text-xs text-strong/60">
+                Jam
+                <input
+                  type="text"
+                  [(ngModel)]="item.time"
+                  name="scheduleTime-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+              <label class="block text-xs text-strong/60">
+                Lokasi
+                <input
+                  type="text"
+                  [(ngModel)]="item.location"
+                  name="scheduleLocation-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-default bg-surface p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-strong">Highlight Tema Minggu Ini</h3>
+        <div class="mt-4 grid gap-4 lg:grid-cols-2">
+          <label class="block text-sm text-strong/70">
+            Judul Tema
+            <input
+              type="text"
+              [(ngModel)]="home.weeklyTheme.title"
+              name="weeklyThemeTitle"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <label class="block text-sm text-strong/70">
+            Tanggal / Jam
+            <input
+              type="text"
+              [(ngModel)]="home.weeklyTheme.dateLabel"
+              name="weeklyThemeDate"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <label class="block text-sm text-strong/70 lg:col-span-2">
+            Teks Ayat
+            <textarea
+              rows="3"
+              [(ngModel)]="home.weeklyTheme.verseText"
+              name="weeklyThemeVerseText"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            ></textarea>
+          </label>
+          <label class="block text-sm text-strong/70">
+            Ayat (Referensi)
+            <input
+              type="text"
+              [(ngModel)]="home.weeklyTheme.verse"
+              name="weeklyThemeVerse"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <label class="block text-sm text-strong/70">
+            Pelayan Firman
+            <input
+              type="text"
+              [(ngModel)]="home.weeklyTheme.preacher"
+              name="weeklyThemePreacher"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <label class="block text-sm text-strong/70">
+            Lokasi
+            <input
+              type="text"
+              [(ngModel)]="home.weeklyTheme.location"
+              name="weeklyThemeLocation"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-default bg-surface p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-strong">Ibadah Online</h3>
+        <div class="mt-4 grid gap-4 lg:grid-cols-2">
+          <label class="flex items-center gap-3 text-sm text-strong/70">
+            <input type="checkbox" [(ngModel)]="home.onlineWorship.isLive" name="onlineIsLive" />
+            Status Live
+          </label>
+          <label class="block text-sm text-strong/70 lg:col-span-2">
+            Embed URL
+            <input
+              type="text"
+              [(ngModel)]="home.onlineWorship.embedUrl"
+              name="onlineEmbedUrl"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+          <label class="block text-sm text-strong/70">
+            Stream URL
+            <input
+              type="text"
+              [(ngModel)]="home.onlineWorship.streamUrl"
+              name="onlineStreamUrl"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+            />
+          </label>
+          <label class="block text-sm text-strong/70">
+            Channel URL
+            <input
+              type="text"
+              [(ngModel)]="home.onlineWorship.channelUrl"
+              name="onlineChannelUrl"
+              class="mt-2 w-full rounded-xl border border-default bg-app px-3 py-2 text-sm"
+              required
+            />
+          </label>
+        </div>
+
+        <div class="mt-6 rounded-2xl border border-default bg-app p-4">
+          <div class="text-sm font-semibold text-strong">Tombol Aksi</div>
+          <div class="mt-3 grid gap-3 md:grid-cols-2">
+            <label class="block text-xs text-strong/60">
+              Label
+              <input
+                type="text"
+                [(ngModel)]="home.onlineWorship.action!.label"
+                name="onlineActionLabel"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+            <label class="block text-xs text-strong/60">
+              URL
+              <input
+                type="text"
+                [(ngModel)]="home.onlineWorship.action!.url"
+                name="onlineActionUrl"
+                class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                required
+              />
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-semibold text-strong">CTA Cepat</div>
+            </div>
+            <button
+              type="button"
+              class="rounded-xl border border-default px-4 py-2 text-sm font-semibold text-strong hover:bg-app"
+              (click)="addOnlineQuickLink()"
+            >
+              Tambah CTA
+            </button>
+          </div>
+
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div
+              *ngFor="let link of home.onlineWorship.quickLinks; let i = index; trackBy: trackQuickLink"
+              class="rounded-2xl border border-default bg-app p-4"
+            >
+              <div class="flex items-center justify-between gap-3">
+                <div class="text-sm font-semibold text-strong">CTA {{ i + 1 }}</div>
+                <button
+                  type="button"
+                  class="text-xs font-semibold text-red-600 hover:underline"
+                  (click)="removeOnlineQuickLink(i)"
+                >
+                  Hapus
+                </button>
+              </div>
+              <div class="mt-3 grid gap-3">
+                <label class="block text-xs text-strong/60">
+                  Label
+                  <input
+                    type="text"
+                    [(ngModel)]="link.label"
+                    name="onlineQuickLabel-{{ i }}"
+                    class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                    required
+                  />
+                </label>
+                <label class="block text-xs text-strong/60">
+                  Judul
+                  <input
+                    type="text"
+                    [(ngModel)]="link.title"
+                    name="onlineQuickTitle-{{ i }}"
+                    class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                    required
+                  />
+                </label>
+                <label class="block text-xs text-strong/60">
+                  URL
+                  <input
+                    type="text"
+                    [(ngModel)]="link.url"
+                    name="onlineQuickUrl-{{ i }}"
+                    class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                    required
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-default bg-surface p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 class="text-lg font-semibold text-strong">Akses Cepat</h3>
+            <p class="text-sm text-strong/60">Kartu menuju halaman publik lainnya.</p>
+          </div>
+          <button
+            type="button"
+            class="rounded-xl border border-default px-4 py-2 text-sm font-semibold text-strong hover:bg-app"
+            (click)="addAccessQuickLink()"
+          >
+            Tambah Link
+          </button>
+        </div>
+
+        <div class="mt-4 grid gap-4">
+          <div
+            *ngFor="let link of home.quickLinks; let i = index; trackBy: trackQuickLink"
+            class="rounded-2xl border border-default bg-app p-4"
+          >
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-sm font-semibold text-strong">Link {{ i + 1 }}</div>
+              <button
+                type="button"
+                class="text-xs font-semibold text-red-600 hover:underline"
+                (click)="removeAccessQuickLink(i)"
+              >
+                Hapus
+              </button>
+            </div>
+            <div class="mt-3 grid gap-3 md:grid-cols-2">
+              <label class="block text-xs text-strong/60">
+                Label
+                <input
+                  type="text"
+                  [(ngModel)]="link.label"
+                  name="quickLabel-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+              <label class="block text-xs text-strong/60">
+                Judul
+                <input
+                  type="text"
+                  [(ngModel)]="link.title"
+                  name="quickTitle-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+              <label class="block text-xs text-strong/60 md:col-span-2">
+                Deskripsi
+                <textarea
+                  rows="2"
+                  [(ngModel)]="link.description"
+                  name="quickDescription-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                ></textarea>
+              </label>
+              <label class="block text-xs text-strong/60 md:col-span-2">
+                URL
+                <input
+                  type="text"
+                  [(ngModel)]="link.url"
+                  name="quickUrl-{{ i }}"
+                  class="mt-2 w-full rounded-xl border border-default bg-surface px-3 py-2 text-sm"
+                  required
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <app-admin-form-actions
+        [isSubmitting]="isSaving"
+        (save)="onSave()"
+        (cancel)="onCancel()"
+      ></app-admin-form-actions>
+    </div>
+  </ng-container>
+</section>

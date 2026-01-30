@@ -49,6 +49,10 @@ export class AuthService {
     return Boolean(localStorage.getItem(STORAGE_TOKEN_KEY));
   }
 
+  getAccessToken(): string | null {
+    return localStorage.getItem(STORAGE_TOKEN_KEY);
+  }
+
   getUser(): AuthUser | null {
     const stored = localStorage.getItem(STORAGE_USER_KEY);
     if (!stored) {

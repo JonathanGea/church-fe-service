@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,10 +14,19 @@ import { AuthService } from '../../core/services/auth.service';
 export class LoginPageComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
 
+  infoMessage = '';
   errorMessage = '';
   isSubmitting = false;
+
+  constructor() {
+    const reason = this.route.snapshot.queryParamMap.get('reason');
+    if (reason === 'expired') {
+      this.infoMessage = 'Sesi admin telah berakhir. Silakan login kembali.';
+    }
+  }
 
   onLogin(event: Event): void {
     event.preventDefault();
@@ -36,6 +45,7 @@ export class LoginPageComponent {
     }
 
     this.errorMessage = '';
+    this.infoMessage = '';
     this.isSubmitting = true;
 
     this.authService
