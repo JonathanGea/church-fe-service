@@ -1,13 +1,19 @@
-<div class="border-b border-bnkpn-border bg-bnkpn-offwhite/70">
+<div class="border-b border-bnkpn-border bg-bnkpn-offwhite/70" *ngIf="contact as info">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs text-bnkpn-slate sm:text-sm">
     <div class="flex flex-wrap items-center gap-2">
-      <span>Jl. Contoh No. 10, Kota</span>
+      <span>{{ info.address }}</span>
       <span class="hidden sm:inline">-</span>
-      <a class="hover:text-bnkpn-charcoal" href="tel:+62000000000">+62 0 0000 0000</a>
+      <a class="hover:text-bnkpn-charcoal" [href]="'tel:' + info.officeContacts.phone">
+        {{ info.officeContacts.phone }}
+      </a>
     </div>
     <div class="flex items-center gap-3">
-      <a class="hover:text-bnkpn-charcoal" href="#">YouTube</a>
-      <a class="hover:text-bnkpn-charcoal" href="#">Instagram</a>
+      <a class="hover:text-bnkpn-charcoal" [href]="info.officeContacts.whatsapp">
+        {{ info.ctaLabels.whatsappLabel }}
+      </a>
+      <a class="hover:text-bnkpn-charcoal" [href]="info.map.mapUrl">
+        {{ info.ctaLabels.mapLabel }}
+      </a>
     </div>
   </div>
 </div>

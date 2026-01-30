@@ -1,90 +1,106 @@
-<main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
-  <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
-    <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
-      <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
-      Jadwal dan Ibadah Online
-    </div>
-    <h1 class="mt-4 font-heading text-4xl sm:text-5xl">Ibadah</h1>
-    <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
-      Jadwal ibadah mingguan, ibadah tengah minggu, dan akses ibadah online.
-    </p>
-  </section>
+<app-loading-state *ngIf="isLoading"></app-loading-state>
 
-  <section class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
-      <h2 class="font-heading text-3xl">Jadwal Ibadah</h2>
-      <p class="mt-2 text-bnkpn-slate">Perbarui jadwal sesuai jemaat.</p>
+<app-error-state
+  *ngIf="!isLoading && errorMessage"
+  [message]="errorMessage"
+  (retry)="loadWorship()"
+></app-error-state>
 
-      <div class="mt-6 grid gap-4 md:grid-cols-2">
-        <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="text-xs text-bnkpn-slate">Minggu</div>
-          <div class="mt-1 text-lg font-semibold">Ibadah Raya</div>
-          <div class="mt-2 text-sm text-bnkpn-slate">08.00 dan 10.30</div>
-          <div class="mt-1 text-sm text-bnkpn-slate">Onsite dan Online</div>
-        </div>
-        <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="text-xs text-bnkpn-slate">Rabu</div>
-          <div class="mt-1 text-lg font-semibold">Doa Bersama</div>
-          <div class="mt-2 text-sm text-bnkpn-slate">19.00</div>
-          <div class="mt-1 text-sm text-bnkpn-slate">Ruang Utama</div>
-        </div>
-        <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="text-xs text-bnkpn-slate">Jumat</div>
-          <div class="mt-1 text-lg font-semibold">Kelompok Sel</div>
-          <div class="mt-2 text-sm text-bnkpn-slate">19.00</div>
-          <div class="mt-1 text-sm text-bnkpn-slate">Berbagai lokasi</div>
-        </div>
-        <div class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="text-xs text-bnkpn-slate">Kategorial</div>
-          <div class="mt-1 text-lg font-semibold">Pemuda atau Kaum Ibu</div>
-          <div class="mt-2 text-sm text-bnkpn-slate">Sesuai pengumuman</div>
-          <div class="mt-1 text-sm text-bnkpn-slate">Lihat Warta</div>
-        </div>
+<app-empty-state
+  *ngIf="!isLoading && !errorMessage && !worship"
+  title="Data ibadah belum tersedia"
+  description="Konten ibadah belum diisi."
+></app-empty-state>
+
+<ng-container *ngIf="!isLoading && !errorMessage && worship as content">
+  <main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
+    <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+        <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
+        {{ content.hero.label }}
       </div>
+      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">{{ content.hero.title }}</h1>
+      <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
+        {{ content.hero.description }}
+      </p>
+    </section>
 
-      <div class="mt-6 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-        <div class="text-xs text-bnkpn-slate">Tata Ibadah (PDF)</div>
-        <a
-          routerLink="/warta"
-          class="mt-3 inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
-        >
-          Buka Warta Jemaat
-        </a>
-      </div>
-    </div>
+    <section class="grid gap-6 lg:grid-cols-3">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
+        <h2 class="font-heading text-3xl">Jadwal Ibadah</h2>
+        <p class="mt-2 text-bnkpn-slate">Perbarui jadwal sesuai jemaat.</p>
 
-    <aside class="grid gap-6">
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6 shadow-soft">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-sm font-semibold">Ibadah Online</div>
-            <div class="text-xs text-bnkpn-slate">Live dan Rekaman</div>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <div
+            *ngFor="let item of content.schedule || []"
+            class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5"
+          >
+            <div class="text-xs text-bnkpn-slate">{{ item.day }}</div>
+            <div class="mt-1 text-lg font-semibold">{{ item.title }}</div>
+            <div class="mt-2 text-sm text-bnkpn-slate">{{ item.time }}</div>
+            <div class="mt-1 text-sm text-bnkpn-slate">{{ item.location }}</div>
           </div>
-          <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">Live</span>
         </div>
 
-        <div class="mt-4 aspect-video rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite text-sm text-bnkpn-slate">
-          <div class="grid h-full place-items-center">Embed YouTube di sini</div>
-        </div>
-
-        <a
-          href="#"
-          class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
-        >
-          Buka Channel
-        </a>
-      </div>
-
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
-        <div class="text-xs text-bnkpn-slate">Tema Minggu Ini</div>
-        <div class="mt-2 font-heading text-2xl leading-snug">Kasih yang Mengubah Hidup</div>
-        <div class="mt-2 text-sm text-bnkpn-slate">Yohanes 3:16</div>
-
-        <div class="mt-5 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
-          <div class="text-xs text-bnkpn-slate">Pelayan Firman</div>
-          <div class="mt-1 font-semibold">Pdt. Nama</div>
+        <div class="mt-6 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
+          <div class="text-xs text-bnkpn-slate">Tata Ibadah (PDF)</div>
+          <a
+            [routerLink]="content.liturgy.wartaUrl"
+            class="mt-3 inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+          >
+            Buka Warta Jemaat
+          </a>
         </div>
       </div>
-    </aside>
-  </section>
-</main>
+
+      <aside class="grid gap-6">
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6 shadow-soft">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm font-semibold">Ibadah Online</div>
+              <div class="text-xs text-bnkpn-slate">Live dan Rekaman</div>
+            </div>
+            <span
+              *ngIf="content.online.isLive"
+              class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy"
+            >
+              Live
+            </span>
+          </div>
+
+          <ng-container *ngIf="onlineEmbedUrl; else worshipEmbed">
+            <iframe
+              class="mt-4 aspect-video w-full rounded-xl2 border border-bnkpn-border"
+              [src]="onlineEmbedUrl"
+              title="Ibadah Online"
+              allowfullscreen
+            ></iframe>
+          </ng-container>
+          <ng-template #worshipEmbed>
+            <div class="mt-4 aspect-video rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite text-sm text-bnkpn-slate">
+              <div class="grid h-full place-items-center">Embed YouTube di sini</div>
+            </div>
+          </ng-template>
+
+          <a
+            [href]="content.online.channelUrl"
+            class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+          >
+            Buka Channel
+          </a>
+        </div>
+
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <div class="text-xs text-bnkpn-slate">Tema Minggu Ini</div>
+          <div class="mt-2 font-heading text-2xl leading-snug">{{ content.weeklyTheme.title }}</div>
+          <div class="mt-2 text-sm text-bnkpn-slate">{{ content.weeklyTheme.verse }}</div>
+
+          <div class="mt-5 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
+            <div class="text-xs text-bnkpn-slate">Pelayan Firman</div>
+            <div class="mt-1 font-semibold">{{ content.weeklyTheme.preacher }}</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</ng-container>

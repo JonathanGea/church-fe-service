@@ -1,12 +1,12 @@
 <footer class="border-t border-bnkpn-border bg-bnkpn-offwhite">
   <div>
     <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-bnkpn-slate">
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface/90 p-6 backdrop-blur">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface/90 p-6 backdrop-blur" *ngIf="contact as info">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div class="font-semibold text-bnkpn-charcoal">BNKP Jemaat ...</div>
-            <div class="mt-1">Jl. Contoh No. 10, Kota - +62 0 0000 0000</div>
-            <div class="mt-1">Email: info@bnkpjemaat.org</div>
+            <div class="font-semibold text-bnkpn-charcoal">{{ info.hero.title }}</div>
+            <div class="mt-1">{{ info.address }} - {{ info.officeContacts.phone }}</div>
+            <div class="mt-1">Email: {{ info.officeContacts.email }}</div>
           </div>
           <div class="flex flex-wrap gap-4">
             <a class="hover:text-bnkpn-charcoal" routerLink="/warta">Warta</a>
@@ -20,7 +20,7 @@
       </div>
 
       <div class="mt-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>© 2026 BNKP Jemaat ...</div>
+        <div>© {{ currentYear }} {{ contact?.hero?.title || 'BNKP Jemaat' }}</div>
         <div class="text-xs">Desain BNKP Classic - Navy, Offwhite, Gold</div>
       </div>
     </div>

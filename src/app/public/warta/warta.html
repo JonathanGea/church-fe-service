@@ -1,122 +1,135 @@
-<main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
-  <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
-    <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
-      <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
-      Warta PDF, arsip bulanan, tema minggu ini
-    </div>
-    <h1 class="mt-4 font-heading text-4xl sm:text-5xl">Warta Jemaat</h1>
-    <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
-      Unduh warta mingguan dan temukan arsip berdasarkan bulan.
-    </p>
-  </section>
+<app-loading-state *ngIf="isLoading"></app-loading-state>
 
-  <section class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <div class="text-xs text-bnkpn-slate">Warta Mingguan</div>
-          <div class="mt-1 font-semibold">Minggu, 28 Jan 2026</div>
-          <div class="mt-1 text-sm text-bnkpn-slate">Tema: Kasih yang Mengubah Hidup</div>
-        </div>
-        <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">PDF</span>
+<app-error-state
+  *ngIf="!isLoading && errorMessage"
+  [message]="errorMessage"
+  (retry)="loadBulletins()"
+></app-error-state>
+
+<app-empty-state
+  *ngIf="!isLoading && !errorMessage && !bulletins"
+  title="Data warta belum tersedia"
+  description="Konten warta jemaat belum diisi."
+></app-empty-state>
+
+<ng-container *ngIf="!isLoading && !errorMessage && bulletins as content">
+  <main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
+    <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+        <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
+        {{ content.hero.label }}
       </div>
+      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">{{ content.hero.title }}</h1>
+      <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
+        {{ content.hero.description }}
+      </p>
+    </section>
 
-      <div class="mt-5 aspect-[16/10] rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite text-sm text-bnkpn-slate">
-        <div class="grid h-full place-items-center">Preview PDF (embed) di sini</div>
-      </div>
-
-      <div class="mt-5 flex flex-col gap-3 sm:flex-row">
-        <a href="#" class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95">
-          Download PDF
-        </a>
-        <a href="#" class="inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite">
-          Buka di Tab Baru
-        </a>
-        <a href="#" class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite">
-          Cetak
-        </a>
-      </div>
-
-      <div class="mt-8">
-        <div class="text-sm font-semibold">Warta Terbaru</div>
-        <div class="mt-3 divide-y divide-bnkpn-border rounded-xl2 border border-bnkpn-border bg-bnkpn-surface">
-          <a href="#" class="block p-4 hover:bg-bnkpn-offwhite">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <div class="text-sm font-semibold">Warta Minggu 28 Jan 2026</div>
-                <div class="mt-1 text-sm text-bnkpn-slate">Tema: Kasih yang Mengubah Hidup</div>
-              </div>
-              <div class="text-xs text-bnkpn-slate">PDF</div>
-            </div>
-          </a>
-          <a href="#" class="block p-4 hover:bg-bnkpn-offwhite">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <div class="text-sm font-semibold">Warta Minggu 21 Jan 2026</div>
-                <div class="mt-1 text-sm text-bnkpn-slate">Tema: Hidup dalam Pengharapan</div>
-              </div>
-              <div class="text-xs text-bnkpn-slate">PDF</div>
-            </div>
-          </a>
-          <a href="#" class="block p-4 hover:bg-bnkpn-offwhite">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <div class="text-sm font-semibold">Warta Minggu 14 Jan 2026</div>
-                <div class="mt-1 text-sm text-bnkpn-slate">Tema: Iman yang Bekerja</div>
-              </div>
-              <div class="text-xs text-bnkpn-slate">PDF</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <aside class="grid gap-6">
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+    <section class="grid gap-6 lg:grid-cols-3">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
         <div class="flex items-start justify-between gap-4">
           <div>
-            <div class="text-xs text-bnkpn-slate">Tema Minggu Ini</div>
-            <div class="mt-2 font-heading text-2xl leading-snug">Kasih yang Mengubah Hidup</div>
-            <div class="mt-2 text-sm text-bnkpn-slate">Yohanes 3:16</div>
+            <div class="text-xs text-bnkpn-slate">Warta Mingguan</div>
+            <div class="mt-1 font-semibold">{{ content.weekly.dateLabel }}</div>
+            <div class="mt-1 text-sm text-bnkpn-slate">Tema: {{ content.weekly.theme }}</div>
           </div>
-          <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">Tema</span>
+          <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">PDF</span>
         </div>
 
-        <div class="mt-5 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
-          <div class="text-xs text-bnkpn-slate">Ringkasan</div>
-          <p class="mt-2 text-sm leading-relaxed text-bnkpn-slate">
-            Fokus pada kasih Allah yang memulihkan dan mendorong jemaat hidup dalam iman yang nyata melalui pelayanan dan kesaksian.
-          </p>
+        <div class="mt-5 aspect-[16/10] rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite text-sm text-bnkpn-slate">
+          <div class="grid h-full place-items-center">Preview PDF (embed) di sini</div>
+        </div>
+
+        <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+          <a
+            [href]="content.weekly.pdfUrl"
+            download
+            class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+          >
+            Download PDF
+          </a>
+          <a
+            [href]="content.weekly.pdfUrl"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+          >
+            Buka di Tab Baru
+          </a>
+          <a
+            [href]="content.weekly.pdfUrl"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite"
+          >
+            Cetak
+          </a>
+        </div>
+
+        <div class="mt-8">
+          <div class="text-sm font-semibold">Warta Terbaru</div>
+          <div class="mt-3 divide-y divide-bnkpn-border rounded-xl2 border border-bnkpn-border bg-bnkpn-surface">
+            <a
+              *ngFor="let item of content.latest || []"
+              [href]="item.pdfUrl"
+              target="_blank"
+              rel="noopener"
+              class="block p-4 hover:bg-bnkpn-offwhite"
+            >
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <div class="text-sm font-semibold">Warta Minggu {{ item.dateLabel }}</div>
+                  <div class="mt-1 text-sm text-bnkpn-slate">Tema: {{ item.theme }}</div>
+                </div>
+                <div class="text-xs text-bnkpn-slate">PDF</div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
-        <div class="text-sm font-semibold">Arsip Warta per Bulan</div>
-        <div class="mt-1 text-sm text-bnkpn-slate">Pilih bulan untuk melihat daftar warta.</div>
+      <aside class="grid gap-6">
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-xs text-bnkpn-slate">Tema Minggu Ini</div>
+              <div class="mt-2 font-heading text-2xl leading-snug">{{ content.weeklyTheme.title }}</div>
+              <div class="mt-2 text-sm text-bnkpn-slate">{{ content.weeklyTheme.verse }}</div>
+            </div>
+            <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">Tema</span>
+          </div>
 
-        <div class="mt-4 grid gap-2">
-          <a href="#" class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface">
-            <span class="text-sm font-semibold">Januari 2026</span>
-            <span class="text-xs text-bnkpn-slate">4 file</span>
-          </a>
-          <a href="#" class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface">
-            <span class="text-sm font-semibold">Desember 2025</span>
-            <span class="text-xs text-bnkpn-slate">5 file</span>
-          </a>
-          <a href="#" class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface">
-            <span class="text-sm font-semibold">November 2025</span>
-            <span class="text-xs text-bnkpn-slate">4 file</span>
-          </a>
-          <a href="#" class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface">
-            <span class="text-sm font-semibold">Oktober 2025</span>
-            <span class="text-xs text-bnkpn-slate">4 file</span>
-          </a>
+          <div class="mt-5 rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-4">
+            <div class="text-xs text-bnkpn-slate">Ringkasan</div>
+            <p class="mt-2 text-sm leading-relaxed text-bnkpn-slate">
+              {{ content.weeklyTheme.summary }}
+            </p>
+          </div>
         </div>
 
-        <a href="#" class="mt-5 inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite">
-          Buka Arsip Lengkap
-        </a>
-      </div>
-    </aside>
-  </section>
-</main>
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <div class="text-sm font-semibold">Arsip Warta per Bulan</div>
+          <div class="mt-1 text-sm text-bnkpn-slate">Pilih bulan untuk melihat daftar warta.</div>
+
+          <div class="mt-4 grid gap-2">
+            <a
+              *ngFor="let item of content.archives || []"
+              href="#"
+              class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface"
+            >
+              <span class="text-sm font-semibold">{{ item.month }}</span>
+              <span class="text-xs text-bnkpn-slate">{{ item.count ?? 0 }} file</span>
+            </a>
+          </div>
+
+          <a
+            href="#"
+            class="mt-5 inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+          >
+            Buka Arsip Lengkap
+          </a>
+        </div>
+      </aside>
+    </section>
+  </main>
+</ng-container>

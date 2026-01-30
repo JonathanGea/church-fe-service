@@ -70,7 +70,8 @@ Response `BaseResponse<HomeContent>`
       "title": "Selamat Datang di BNKP Jemaat ...",
       "description": "Ringkasan singkat",
       "ctaPrimary": { "label": "Lihat Ibadah", "url": "/ibadah" },
-      "ctaSecondary": { "label": "Baca Warta", "url": "/warta" }
+      "ctaSecondary": { "label": "Ibadah Online", "url": "/ibadah" },
+      "ctaTertiary": { "label": "Baca Warta", "url": "/warta" }
     },
     "scheduleSummary": [
       { "day": "Minggu", "title": "Ibadah Raya", "time": "08.00", "location": "Gereja" }
@@ -78,6 +79,7 @@ Response `BaseResponse<HomeContent>`
     "weeklyTheme": {
       "title": "Kasih yang Mengubah Hidup",
       "dateLabel": "Minggu, 28 Jan 2026",
+      "verseText": "Karena begitu besar kasih Allah akan dunia ini...",
       "verse": "Yohanes 3:16",
       "preacher": "Pdt. Nama",
       "location": "Gereja"
@@ -86,10 +88,20 @@ Response `BaseResponse<HomeContent>`
       "isLive": true,
       "embedUrl": "https://youtube.com/embed/...",
       "streamUrl": "https://youtube.com/...",
-      "channelUrl": "https://youtube.com/..."
+      "channelUrl": "https://youtube.com/...",
+      "action": { "label": "Buka", "url": "/ibadah" },
+      "quickLinks": [
+        { "label": "BNKP - Warta", "title": "Pengumuman terbaru", "url": "/warta" },
+        { "label": "Butuh bantuan?", "title": "Kontak admin", "url": "/kontak" }
+      ]
     },
     "quickLinks": [
-      { "label": "Warta Jemaat", "url": "/warta" }
+      {
+        "label": "Profil",
+        "title": "Tentang BNKP",
+        "description": "Sejarah, visi, misi, dan pelayan jemaat.",
+        "url": "/tentang"
+      }
     ]
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
@@ -103,7 +115,11 @@ Response `BaseResponse<AboutContent>`
   "isSuccess": true,
   "errors": null,
   "data": {
-    "profileSummary": "Ringkasan profil jemaat",
+    "hero": {
+      "label": "Profil Jemaat",
+      "title": "Tentang BNKP Jemaat ...",
+      "description": "Ringkasan profil jemaat"
+    },
     "history": {
       "summary": "Sejarah singkat",
       "establishedYear": 1980,
@@ -131,6 +147,11 @@ Response `BaseResponse<WorshipContent>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "Jadwal dan Ibadah Online",
+      "title": "Ibadah",
+      "description": "Jadwal ibadah mingguan, ibadah tengah minggu, dan akses ibadah online."
+    },
     "schedule": [
       {
         "day": "Minggu",
@@ -166,7 +187,13 @@ Response `BaseResponse<BulletinList>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "Warta PDF, arsip bulanan, tema minggu ini",
+      "title": "Warta Jemaat",
+      "description": "Unduh warta mingguan dan temukan arsip berdasarkan bulan."
+    },
     "weekly": {
+      "id": "warta-2026-01-28",
       "dateLabel": "Minggu, 28 Jan 2026",
       "theme": "Kasih yang Mengubah Hidup",
       "pdfUrl": "https://.../warta-2026-01-28.pdf"
@@ -181,11 +208,12 @@ Response `BaseResponse<BulletinList>`
     ],
     "weeklyTheme": {
       "title": "Kasih yang Mengubah Hidup",
+      "verse": "Yohanes 3:16",
       "summary": "Ringkasan tema minggu ini"
     },
     "archives": [
-      { "month": "Januari 2026" },
-      { "month": "Desember 2025" }
+      { "month": "Januari 2026", "count": 4 },
+      { "month": "Desember 2025", "count": 5 }
     ]
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
@@ -200,6 +228,11 @@ Response `BaseResponse<ActivityList>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "BNKP Agenda Jemaat",
+      "title": "Kegiatan Jemaat",
+      "description": "Agenda kegiatan terdekat, kalender bulan berjalan, serta arsip kegiatan yang telah dilaksanakan."
+    },
     "filters": {
       "months": ["Januari 2026", "Februari 2026"],
       "categories": ["Kategorial", "Umum"]
@@ -225,7 +258,13 @@ Response `BaseResponse<ActivityList>`
     "archives": [
       { "month": "Desember 2025" },
       { "month": "November 2025" }
-    ]
+    ],
+    "contactCta": {
+      "title": "Butuh Informasi Kegiatan?",
+      "description": "Hubungi admin untuk konfirmasi jadwal, lokasi, dan pendaftaran.",
+      "label": "Kontak Admin",
+      "url": "/kontak"
+    }
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
 }
@@ -262,14 +301,45 @@ Response `BaseResponse<MinistryContent>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "BNKP Kategorial dan Fungsional",
+      "title": "Pelayanan Jemaat",
+      "description": "Pelayanan kategorial dan fungsional untuk membangun persekutuan, pembinaan iman, serta pelayanan kasih."
+    },
+    "kategorialSection": {
+      "title": "Pelayanan Kategorial",
+      "description": "Kelompok berdasarkan kategori jemaat."
+    },
+    "kategorialCta": { "label": "Gabung Pelayanan", "url": "/kontak" },
     "kategorial": [
-      { "name": "Sekolah Minggu", "description": "Deskripsi singkat", "schedule": "Minggu - 08.00" },
-      { "name": "Remaja", "description": "Deskripsi singkat", "schedule": "Sabtu - 17.00" }
+      {
+        "label": "Anak",
+        "name": "Sekolah Minggu",
+        "description": "Deskripsi singkat",
+        "schedule": "Minggu - 08.00"
+      },
+      {
+        "label": "Remaja",
+        "name": "Remaja",
+        "description": "Deskripsi singkat",
+        "schedule": "Sabtu - 17.00"
+      }
     ],
+    "fungsionalSection": {
+      "title": "Pelayanan Fungsional",
+      "description": "Pelayanan yang mendukung ibadah dan pelayanan jemaat."
+    },
     "fungsional": [
       { "label": "Bidang", "name": "Diakonia", "description": "Pelayanan kasih" },
       { "label": "Bidang", "name": "Multimedia", "description": "Live streaming" }
-    ]
+    ],
+    "ctaSection": {
+      "title": "Terpanggil untuk Melayani?",
+      "description": "Hubungi admin untuk informasi bergabung dan penjadwalan pelayanan.",
+      "primaryLink": { "label": "Kontak Admin", "url": "/kontak" },
+      "secondaryLink": { "label": "Lihat Kegiatan", "url": "/kegiatan" },
+      "note": "Untuk menjaga privasi, kontak penanggung jawab dicantumkan melalui kanal resmi (admin atau kantor gereja)."
+    }
   },
   "timestamp": "2026-01-28T10:20:30.000Z"
 }
@@ -282,38 +352,63 @@ Response `BaseResponse<OfferingInfo>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "Persembahan sebagai ungkapan syukur",
+      "title": "Persembahan",
+      "description": "Informasi persembahan online (rekening dan QRIS) serta panduan singkat untuk konfirmasi."
+    },
+    "methodsSection": {
+      "title": "Metode Persembahan",
+      "description": "Pilih metode yang tersedia."
+    },
     "methods": [
       {
         "type": "TRANSFER",
         "title": "Transfer Bank",
         "details": [
           { "label": "BCA", "value": "1234567890 a.n. BNKP Jemaat ..." }
-        ]
+        ],
+        "note": "Persembahan atau Perpuluhan atau Khusus",
+        "action": { "label": "Salin Nomor Rekening", "url": "#" }
       },
       {
         "type": "QRIS",
         "title": "QRIS",
         "details": [
           { "label": "QR Code", "value": "https://.../qris.png" }
-        ]
+        ],
+        "note": "Scan QR untuk persembahan melalui e-wallet."
       },
       {
         "type": "ONSITE",
         "title": "Onsite",
         "details": [
           { "label": "Lokasi", "value": "Kotak Persembahan" }
-        ]
+        ],
+        "note": "Persembahan tetap dapat dilakukan saat ibadah berlangsung sesuai tata ibadah.",
+        "action": { "label": "Lihat Jadwal Ibadah", "url": "/ibadah" }
       }
     ],
+    "guideSection": {
+      "title": "Panduan Singkat",
+      "description": "Ikuti panduan berikut untuk memudahkan pencatatan.",
+      "note": "Informasi ini bersifat administratif. Untuk pertanyaan lebih lanjut, silakan hubungi bendahara melalui admin."
+    },
     "guide": [
       "Tulis keterangan persembahan",
       "Gunakan nama lengkap"
     ],
     "confirmationForm": {
-      "isEnabled": true
+      "isEnabled": true,
+      "title": "Konfirmasi Persembahan",
+      "description": "Isi form ini jika gereja membutuhkan konfirmasi.",
+      "contactCta": { "label": "Kontak Admin", "url": "/kontak" },
+      "note": "Form ini contoh statis. Nanti bisa dihubungkan ke Google Form atau backend."
     },
     "transparency": {
       "isEnabled": false,
+      "title": "Ringkasan Keuangan Bulanan",
+      "description": "Jika jemaat membutuhkan, lampirkan ringkasan atau link PDF laporan bulanan.",
       "items": [
         { "label": "Laporan 2025", "url": "https://.../laporan-2025.pdf" }
       ]
@@ -352,12 +447,25 @@ Response `BaseResponse<ContactInfo>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "Lokasi, kontak, jam layanan",
+      "title": "Kontak",
+      "description": "Hubungi kantor gereja atau kunjungi lokasi ibadah."
+    },
+    "locationSection": {
+      "title": "Lokasi",
+      "description": "Alamat dan peta menuju gereja."
+    },
     "address": "Jl. Contoh No. 10, Kota",
     "landmark": "Patokan dekat ...",
     "officeContacts": {
       "phone": "+62 0 0000 0000",
       "email": "info@bnkpjemaat.org",
       "whatsapp": "+62 0 0000 0000"
+    },
+    "ctaLabels": {
+      "whatsappLabel": "Chat WhatsApp Admin",
+      "mapLabel": "Buka Google Maps"
     },
     "map": {
       "embedUrl": "https://maps.google.com/...",
@@ -368,8 +476,11 @@ Response `BaseResponse<ContactInfo>`
       { "label": "Sabtu", "time": "09.00-13.00" },
       { "label": "Minggu", "time": "06.30-12.00" }
     ],
+    "officeHoursNote": "Untuk kunjungan dan konseling, disarankan membuat janji terlebih dahulu.",
     "pastoralService": {
       "isEnabled": true,
+      "title": "Layanan Pastoral",
+      "description": "Permohonan doa atau konseling bisa diarahkan melalui admin kantor gereja.",
       "ctaLabel": "Ajukan Konseling",
       "ctaUrl": "/kontak"
     }
@@ -386,6 +497,11 @@ Response `BaseResponse<AlbumList>`
   "isSuccess": true,
   "errors": null,
   "data": {
+    "hero": {
+      "label": "Dokumentasi kegiatan jemaat",
+      "title": "Album",
+      "description": "Kumpulan foto dan momen pelayanan, ibadah, serta kegiatan jemaat."
+    },
     "tags": ["Ibadah", "Kegiatan", "Pelayanan", "Pelatihan"],
     "selectedTag": "Ibadah",
     "photos": [
@@ -447,6 +563,10 @@ Response `BaseResponse<WorshipContent>`
 Query params: `page`, `limit`
 Response `BaseResponse<BulletinList>`
 
+### PUT /admin/bulletins
+Request `BulletinList`
+Response `BaseResponse<BulletinList>`
+
 ### POST /admin/bulletins
 Request `BulletinPayload` (weekly warta item)
 Response `BaseResponse<BulletinItem>`
@@ -460,6 +580,10 @@ Response `BaseResponse<{}>`
 
 ### GET /admin/activities
 Query params: `month`, `category`, `q`
+Response `BaseResponse<ActivityList>`
+
+### PUT /admin/activities
+Request `ActivityList`
 Response `BaseResponse<ActivityList>`
 
 ### POST /admin/activities
@@ -499,6 +623,10 @@ Response `BaseResponse<ContactInfo>`
 
 ### GET /admin/albums
 Query params: `tag`
+Response `BaseResponse<AlbumList>`
+
+### PUT /admin/albums
+Request `AlbumList`
 Response `BaseResponse<AlbumList>`
 
 ### POST /admin/albums

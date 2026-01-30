@@ -26,7 +26,7 @@ Aturan:
 Di terminal:
 
 ```bash
-codex --prompt "$(cat _docs/codex-driver.md)"
+codex "$(cat _docs/codex-driver.md)"
 ```
 
 Codex akan membaca checklist, menyelesaikan item pertama yang belum selesai, update status, lalu lanjut ke item berikutnya.
@@ -43,9 +43,8 @@ Jika ingin auto-loop sampai semua `[ ]` selesai, gunakan loop sederhana:
 
 ```bash
 while true; do
-  codex --prompt "$(cat _docs/codex-driver.md)"
+  codex "$(cat _docs/codex-driver.md)"
   rg "\\[ \\]" _docs/admin-menu-todo.md || break
-Done
 done
 ```
 

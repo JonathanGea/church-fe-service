@@ -7,18 +7,18 @@ Jika halaman masih statis (hardcoded), maka tidak ada data dinamis yang dibutuhk
 ## 1) Beranda (Home)
 Lokasi kode: `src/app/public/home/home.html`
 - Fitur:
-  - Hero dengan judul, deskripsi, dan CTA ke Ibadah/Warta.
+  - Hero dengan judul, deskripsi, dan 3 CTA (Ibadah, Ibadah Online, Warta).
   - Ringkasan jadwal (3 kartu).
-  - Highlight tema minggu ini (judul tema, tanggal/jam, ayat, pelayan firman, lokasi).
-  - Blok ibadah online (placeholder embed) dan CTA cepat.
-  - Akses cepat ke halaman publik lainnya.
+  - Highlight tema minggu ini (judul tema, tanggal/jam, ayat, teks ayat, pelayan firman, lokasi).
+  - Blok ibadah online (placeholder embed) + tombol aksi + CTA cepat.
+  - Akses cepat ke halaman publik lainnya (label, judul, deskripsi).
 - Data:
   - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
 ## 2) Tentang Jemaat
 Lokasi kode: `src/app/public/tentang/tentang.html`
 - Fitur:
-  - Ringkasan profil jemaat.
+  - Header profil (label, judul, ringkasan profil jemaat).
   - Sejarah singkat, tahun berdiri, wilayah pelayanan, catatan.
   - Visi, misi (list), dan struktur pelayan.
 - Data:
@@ -27,6 +27,7 @@ Lokasi kode: `src/app/public/tentang/tentang.html`
 ## 3) Ibadah
 Lokasi kode: `src/app/public/ibadah/ibadah.html`
 - Fitur:
+  - Header ibadah (label, judul, deskripsi).
   - Jadwal ibadah (kartu-kartu: hari, nama ibadah, jam, lokasi).
   - Tata ibadah (tautan ke warta).
   - Ibadah online (status live, placeholder embed, tombol channel).
@@ -37,21 +38,23 @@ Lokasi kode: `src/app/public/ibadah/ibadah.html`
 ## 4) Warta Jemaat
 Lokasi kode: `src/app/public/warta/warta.html`
 - Fitur:
+  - Header warta (label, judul, deskripsi).
   - Warta mingguan: tanggal, tema, preview PDF (placeholder), aksi unduh/buka/cetak.
   - Daftar warta terbaru.
-  - Tema minggu ini + ringkasan.
-  - Arsip warta per bulan (list).
+  - Tema minggu ini + ayat + ringkasan.
+  - Arsip warta per bulan (list + jumlah file).
 - Data:
   - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
 ## 5) Kegiatan Jemaat
 Lokasi kode: `src/app/public/kegiatan/kegiatan.html`
 - Fitur:
+  - Header kegiatan (label, judul, deskripsi).
   - Filter (bulan, kategori, pencarian) — hanya UI, belum terhubung data.
   - Kegiatan terdekat (list kartu kegiatan + CTA detail/daftar).
   - Kalender bulanan (list ringkas).
   - Arsip kegiatan (list bulan).
-  - CTA ke kontak admin.
+  - CTA ke kontak admin (judul, deskripsi, tombol).
 - Data:
   - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
@@ -80,15 +83,18 @@ Lokasi kode: `src/app/public/kegiatan-detail/kegiatan-detail.html` dan `.ts`
 ## 7) Pelayanan Jemaat
 Lokasi kode: `src/app/public/pelayanan/pelayanan.html`
 - Fitur:
-  - Daftar pelayanan kategorial (nama, deskripsi, jadwal).
+  - Header pelayanan (label, judul, deskripsi).
+  - Daftar pelayanan kategorial (label, nama, deskripsi, jadwal).
   - Daftar pelayanan fungsional (label, nama, deskripsi).
-  - CTA menuju kontak/kegiatan.
+  - CTA kategori (tombol gabung pelayanan).
+  - CTA menuju kontak/kegiatan + catatan.
 - Data:
   - Tidak ada binding data; seluruh konten saat ini hardcoded di HTML.
 
 ## 8) Persembahan
 Lokasi kode: `src/app/public/persembahan/persembahan.html`
 - Fitur:
+  - Header persembahan (label, judul, deskripsi).
   - Informasi metode persembahan (transfer bank, QRIS, onsite).
   - Panduan singkat (list).
   - Form konfirmasi persembahan (UI statis, belum submit).
@@ -99,6 +105,7 @@ Lokasi kode: `src/app/public/persembahan/persembahan.html`
 ## 9) Kontak
 Lokasi kode: `src/app/public/kontak/kontak.html`
 - Fitur:
+  - Header kontak (label, judul, deskripsi).
   - Alamat, patokan, kontak kantor.
   - Embed peta (placeholder) + CTA WhatsApp/Maps.
   - Jam layanan (list).
@@ -109,6 +116,7 @@ Lokasi kode: `src/app/public/kontak/kontak.html`
 ## 10) Album
 Lokasi kode: `src/app/public/album/album.html` dan `.ts`
 - Fitur:
+  - Header album (label, judul, deskripsi).
   - Filter tag album (pill buttons).
   - Grid album berdasarkan tag terpilih.
   - Label “Baru” untuk tag tertentu.

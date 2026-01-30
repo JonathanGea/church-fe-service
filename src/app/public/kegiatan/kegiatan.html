@@ -1,190 +1,155 @@
-<main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
-  <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
-    <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
-      <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
-      BNKP Agenda Jemaat
-    </div>
-    <h1 class="mt-4 font-heading text-4xl sm:text-5xl">Kegiatan Jemaat</h1>
-    <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
-      Agenda kegiatan terdekat, kalender bulan berjalan, serta arsip kegiatan yang telah dilaksanakan.
-    </p>
-  </section>
+<app-loading-state *ngIf="isLoading"></app-loading-state>
 
-  <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
-    <div class="grid gap-3 md:grid-cols-3">
-      <label class="block">
-        <span class="text-xs text-bnkpn-slate">Bulan</span>
-        <select class="mt-1 w-full rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2 text-sm">
-          <option>Januari 2026</option>
-          <option>Desember 2025</option>
-          <option>November 2025</option>
-        </select>
-      </label>
-      <label class="block">
-        <span class="text-xs text-bnkpn-slate">Kategori</span>
-        <select class="mt-1 w-full rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2 text-sm">
-          <option>Semua</option>
-          <option>Ibadah</option>
-          <option>Kategorial</option>
-          <option>Diakonia</option>
-          <option>Pelatihan</option>
-        </select>
-      </label>
-      <label class="block">
-        <span class="text-xs text-bnkpn-slate">Cari kegiatan</span>
-        <input
-          class="mt-1 w-full rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2 text-sm"
-          placeholder="Contoh: Katekisasi"
-        />
-      </label>
-    </div>
-  </section>
+<app-error-state
+  *ngIf="!isLoading && errorMessage"
+  [message]="errorMessage"
+  (retry)="loadActivities()"
+></app-error-state>
 
-  <section class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
-      <div class="flex flex-wrap items-end justify-between gap-4">
+<app-empty-state
+  *ngIf="!isLoading && !errorMessage && !activities"
+  title="Data kegiatan belum tersedia"
+  description="Konten kegiatan jemaat belum diisi."
+></app-empty-state>
+
+<ng-container *ngIf="!isLoading && !errorMessage && activities as content">
+  <main class="mx-auto max-w-6xl space-y-10 px-4 py-12">
+    <section class="paper-grain rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">
+        <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
+        {{ content.hero.label }}
+      </div>
+      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">{{ content.hero.title }}</h1>
+      <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
+        {{ content.hero.description }}
+      </p>
+    </section>
+
+    <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+      <div class="grid gap-3 md:grid-cols-3">
+        <label class="block">
+          <span class="text-xs text-bnkpn-slate">Bulan</span>
+          <select class="mt-1 w-full rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2 text-sm">
+            <option *ngFor="let month of content.filters.months || []">{{ month }}</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="text-xs text-bnkpn-slate">Kategori</span>
+          <select class="mt-1 w-full rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2 text-sm">
+            <option *ngFor="let category of content.filters.categories || []">{{ category }}</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="text-xs text-bnkpn-slate">Cari kegiatan</span>
+          <input
+            class="mt-1 w-full rounded-xl border border-bnkpn-border bg-bnkpn-offwhite px-4 py-2 text-sm"
+            placeholder="Contoh: Katekisasi"
+          />
+        </label>
+      </div>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-3">
+      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8 lg:col-span-2">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="font-heading text-3xl">Kegiatan Terdekat</h2>
+            <p class="mt-2 text-bnkpn-slate">Informasi kegiatan yang akan berlangsung.</p>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4">
+          <article
+            *ngFor="let item of content.upcoming || []"
+            class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-xs text-bnkpn-slate">{{ item.category }}</div>
+                <h3 class="mt-1 text-lg font-semibold">{{ item.title }}</h3>
+                <div class="mt-2 text-sm text-bnkpn-slate">
+                  {{ item.dateLabel }} - {{ item.timeLabel }} - {{ item.location }}
+                </div>
+              </div>
+              <span class="rounded-full border border-bnkpn-gold bg-bnkpn-surface px-3 py-1 text-xs text-bnkpn-navy">
+                {{ item.status }}
+              </span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-bnkpn-slate">
+              {{ item.summary }}
+            </p>
+            <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+              <a
+                *ngIf="item.ctaPrimary?.label && item.ctaPrimary?.url"
+                [routerLink]="item.ctaPrimary?.url"
+                class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+              >
+                {{ item.ctaPrimary?.label }}
+              </a>
+              <a
+                *ngIf="item.ctaSecondary?.label && item.ctaSecondary?.url"
+                [routerLink]="item.ctaSecondary?.url"
+                class="inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+              >
+                {{ item.ctaSecondary?.label }}
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <aside class="grid gap-6">
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <h3 class="font-heading text-2xl">Kalender Bulanan</h3>
+          <p class="mt-2 text-sm text-bnkpn-slate">Daftar agenda bulan berjalan.</p>
+
+          <div class="mt-4 divide-y divide-bnkpn-border rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite">
+            <div *ngFor="let item of content.calendar || []" class="p-4">
+              <div class="text-xs text-bnkpn-slate">{{ item.dateLabel }}</div>
+              <div class="mt-1 font-semibold">{{ item.title }}</div>
+              <div class="mt-1 text-sm text-bnkpn-slate">{{ item.timeLabel }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
+          <h3 class="font-heading text-2xl">Arsip Kegiatan</h3>
+          <p class="mt-2 text-sm text-bnkpn-slate">Kegiatan yang sudah lewat (ringkas).</p>
+
+          <div class="mt-4 grid gap-2">
+            <a
+              *ngFor="let item of content.archives || []"
+              href="#"
+              class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface"
+            >
+              <span class="text-sm font-semibold">{{ item.month }}</span>
+              <span class="text-xs text-bnkpn-slate">lihat</span>
+            </a>
+          </div>
+
+          <a
+            routerLink="/warta"
+            class="mt-5 inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+          >
+            Lihat Warta dan Pengumuman
+          </a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
+      <div class="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 class="font-heading text-3xl">Kegiatan Terdekat</h2>
-          <p class="mt-2 text-bnkpn-slate">Informasi kegiatan yang akan berlangsung.</p>
+          <h2 class="font-heading text-3xl">{{ content.contactCta.title }}</h2>
+          <p class="mt-2 text-bnkpn-slate">{{ content.contactCta.description }}</p>
         </div>
-      </div>
-
-      <div class="mt-6 grid gap-4">
-        <article class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <div class="text-xs text-bnkpn-slate">Kategorial</div>
-              <h3 class="mt-1 text-lg font-semibold">Kelas Katekisasi (Batch 1)</h3>
-              <div class="mt-2 text-sm text-bnkpn-slate">Sabtu, 27 Jan 2026 - 16.00 - Ruang Kelas</div>
-            </div>
-            <span class="rounded-full border border-bnkpn-gold bg-bnkpn-surface px-3 py-1 text-xs text-bnkpn-navy">Terbuka</span>
-          </div>
-          <p class="mt-3 text-sm leading-relaxed text-bnkpn-slate">
-            Pembinaan iman untuk calon sidi atau katekisasi. Informasi pendaftaran melalui admin.
-          </p>
-          <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-            <a
-              routerLink="/kegiatan/katekisasi-batch-1"
-              class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
-            >
-              Detail
-            </a>
-            <a
-              routerLink="/kegiatan/katekisasi-batch-1"
-              class="inline-flex items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
-            >
-              Daftar
-            </a>
-          </div>
-        </article>
-
-        <article class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <div class="text-xs text-bnkpn-slate">Diakonia</div>
-              <h3 class="mt-1 text-lg font-semibold">Kunjungan Jemaat</h3>
-              <div class="mt-2 text-sm text-bnkpn-slate">Minggu, 28 Jan 2026 - 13.00 - Titik kumpul: Gereja</div>
-            </div>
-            <span class="rounded-full border border-bnkpn-border bg-bnkpn-surface px-3 py-1 text-xs text-bnkpn-slate">Pelayanan</span>
-          </div>
-          <p class="mt-3 text-sm leading-relaxed text-bnkpn-slate">
-            Tim diakonia melakukan kunjungan dan doa. Konfirmasi ke admin untuk ikut serta.
-          </p>
-          <div class="mt-4">
-            <a
-              routerLink="/kegiatan/kunjungan-jemaat"
-              class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite"
-            >
-              Detail
-            </a>
-          </div>
-        </article>
-
-        <article class="rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite p-5">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <div class="text-xs text-bnkpn-slate">Pelatihan</div>
-              <h3 class="mt-1 text-lg font-semibold">Pelatihan Liturgi dan Tata Ibadah</h3>
-              <div class="mt-2 text-sm text-bnkpn-slate">Kamis, 01 Feb 2026 - 19.00 - Ruang Utama</div>
-            </div>
-            <span class="rounded-full border border-bnkpn-gold bg-bnkpn-surface px-3 py-1 text-xs text-bnkpn-navy">Untuk Pelayan</span>
-          </div>
-          <p class="mt-3 text-sm leading-relaxed text-bnkpn-slate">
-            Pembekalan singkat untuk pelayan ibadah. Materi dibagikan setelah kegiatan.
-          </p>
-          <div class="mt-4">
-            <a
-              routerLink="/kegiatan/pelatihan-liturgi"
-              class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite"
-            >
-              Detail
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
-
-    <aside class="grid gap-6">
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
-        <h3 class="font-heading text-2xl">Kalender Bulanan</h3>
-        <p class="mt-2 text-sm text-bnkpn-slate">Daftar agenda bulan berjalan.</p>
-
-        <div class="mt-4 divide-y divide-bnkpn-border rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite">
-          <div class="p-4">
-            <div class="text-xs text-bnkpn-slate">Minggu, 28 Jan</div>
-            <div class="mt-1 font-semibold">Ibadah Raya</div>
-            <div class="mt-1 text-sm text-bnkpn-slate">08.00 - 10.30</div>
-          </div>
-          <div class="p-4">
-            <div class="text-xs text-bnkpn-slate">Sabtu, 27 Jan</div>
-            <div class="mt-1 font-semibold">Katekisasi</div>
-            <div class="mt-1 text-sm text-bnkpn-slate">16.00</div>
-          </div>
-          <div class="p-4">
-            <div class="text-xs text-bnkpn-slate">Rabu, 31 Jan</div>
-            <div class="mt-1 font-semibold">Doa Bersama</div>
-            <div class="mt-1 text-sm text-bnkpn-slate">19.00</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-6">
-        <h3 class="font-heading text-2xl">Arsip Kegiatan</h3>
-        <p class="mt-2 text-sm text-bnkpn-slate">Kegiatan yang sudah lewat (ringkas).</p>
-
-        <div class="mt-4 grid gap-2">
-          <a href="#" class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface">
-            <span class="text-sm font-semibold">Desember 2025</span>
-            <span class="text-xs text-bnkpn-slate">lihat</span>
-          </a>
-          <a href="#" class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface">
-            <span class="text-sm font-semibold">November 2025</span>
-            <span class="text-xs text-bnkpn-slate">lihat</span>
-          </a>
-        </div>
-
         <a
-          routerLink="/warta"
-          class="mt-5 inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
+          [routerLink]="content.contactCta.url"
+          class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-5 py-3 text-sm font-semibold text-white hover:opacity-95"
         >
-          Lihat Warta dan Pengumuman
+          {{ content.contactCta.label }}
         </a>
       </div>
-    </aside>
-  </section>
-
-  <section class="rounded-xl3 border border-bnkpn-border bg-bnkpn-surface p-8">
-    <div class="flex flex-wrap items-start justify-between gap-4">
-      <div>
-        <h2 class="font-heading text-3xl">Butuh Informasi Kegiatan?</h2>
-        <p class="mt-2 text-bnkpn-slate">Hubungi admin untuk konfirmasi jadwal, lokasi, dan pendaftaran.</p>
-      </div>
-      <a
-        routerLink="/kontak"
-        class="inline-flex items-center justify-center rounded-xl bg-bnkpn-navy px-5 py-3 text-sm font-semibold text-white hover:opacity-95"
-      >
-        Kontak Admin
-      </a>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
+</ng-container>

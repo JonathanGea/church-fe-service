@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
+  <button
+    type="button"
+    class="inline-flex items-center justify-center rounded-xl border border-default bg-surface px-4 py-2 text-sm font-semibold text-strong hover:bg-app"
+    (click)="cancel.emit()"
+  >
+    {{ cancelLabel }}
+  </button>
+  <button
+    type="button"
+    [disabled]="isSubmitting || disableSave"
+    class="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
+    (click)="save.emit()"
+  >
+    {{ isSubmitting ? 'Menyimpan...' : saveLabel }}
+  </button>
+</div>
