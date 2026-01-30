@@ -8,8 +8,8 @@
 
 <app-empty-state
   *ngIf="!isLoading && !errorMessage && !bulletins"
-  title="Data warta belum tersedia"
-  description="Konten warta jemaat belum diisi."
+  title="Arsip warta belum tersedia"
+  description="Konten arsip warta belum diisi."
 ></app-empty-state>
 
 <ng-container *ngIf="!isLoading && !errorMessage && bulletins as content">
@@ -19,7 +19,7 @@
         <span class="h-2 w-2 rounded-full bg-bnkpn-gold"></span>
         {{ content.hero.label }}
       </div>
-      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">{{ content.hero.title }}</h1>
+      <h1 class="mt-4 font-heading text-4xl sm:text-5xl">Arsip Lengkap Warta</h1>
       <p class="mt-3 text-[17px] leading-relaxed text-bnkpn-slate">
         {{ content.hero.description }}
       </p>
@@ -34,10 +34,6 @@
             <div class="mt-1 text-sm text-bnkpn-slate">Tema: {{ content.weekly.theme }}</div>
           </div>
           <span class="rounded-full border border-bnkpn-gold bg-bnkpn-offwhite px-3 py-1 text-xs text-bnkpn-navy">PDF</span>
-        </div>
-
-        <div class="mt-5 aspect-[16/10] rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite text-sm text-bnkpn-slate">
-          <div class="grid h-full place-items-center">Preview PDF (embed) di sini</div>
         </div>
 
         <div class="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -56,21 +52,15 @@
           >
             Buka di Tab Baru
           </a>
-          <a
-            [href]="content.weekly.pdfUrl"
-            target="_blank"
-            rel="noopener"
-            class="inline-flex items-center justify-center rounded-xl border border-bnkpn-border bg-bnkpn-surface px-4 py-2 text-sm font-semibold hover:bg-bnkpn-offwhite"
-          >
-            Cetak
-          </a>
         </div>
 
         <div class="mt-8">
-          <div class="text-sm font-semibold">Warta Terbaru</div>
+          <div class="text-sm font-semibold">
+            {{ selectedMonth ? 'Warta Bulan ' + selectedMonth : 'Semua Warta' }}
+          </div>
           <div class="mt-3 divide-y divide-bnkpn-border rounded-xl2 border border-bnkpn-border bg-bnkpn-surface">
             <a
-              *ngFor="let item of content.latest || []"
+              *ngFor="let item of filteredBulletins || []"
               [href]="item.pdfUrl"
               target="_blank"
               rel="noopener"
@@ -112,22 +102,21 @@
           <div class="mt-1 text-sm text-bnkpn-slate">Pilih bulan untuk melihat daftar warta.</div>
 
           <div class="mt-4 grid gap-2">
-            <a
+            <button
               *ngFor="let item of content.archives || []"
-              href="#"
-              class="flex items-center justify-between rounded-xl2 border border-bnkpn-border bg-bnkpn-offwhite px-4 py-3 hover:bg-bnkpn-surface"
+              type="button"
+              class="flex cursor-pointer items-center justify-between rounded-xl2 border border-bnkpn-border px-4 py-3 text-left transition"
+              [ngClass]="
+                selectedMonth === item.month
+                  ? 'border-bnkpn-navy bg-bnkpn-surface text-bnkpn-navy'
+                  : 'bg-bnkpn-offwhite text-bnkpn-slate hover:bg-bnkpn-surface hover:text-bnkpn-navy'
+              "
+              (click)="setMonth(item.month)"
             >
               <span class="text-sm font-semibold">{{ item.month }}</span>
               <span class="text-xs text-bnkpn-slate">{{ item.count ?? 0 }} file</span>
-            </a>
+            </button>
           </div>
-
-          <a
-            routerLink="/warta/arsip"
-            class="mt-5 inline-flex w-full items-center justify-center rounded-xl border border-bnkpn-navy bg-bnkpn-surface px-4 py-2 text-sm font-semibold text-bnkpn-navy hover:bg-bnkpn-offwhite"
-          >
-            Buka Arsip Lengkap
-          </a>
         </div>
       </aside>
     </section>

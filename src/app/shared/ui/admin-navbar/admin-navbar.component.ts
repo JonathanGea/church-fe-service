@@ -6,16 +6,17 @@ import {
   HostListener,
   Input,
   Output,
+  ElementRef,
   inject
 } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-navbar',
   standalone: true,
-  imports: [NgClass, NgFor, NgIf],
+  imports: [NgClass, NgFor, NgIf, RouterLink],
   templateUrl: './admin-navbar.component.html',
   styleUrl: './admin-navbar.component.css'
 })
@@ -32,9 +33,11 @@ export class AdminNavbarComponent {
 
   notificationsCount = 11;
   isScrolled = false;
+  isUserMenuOpen = false;
 
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly hostRef = inject(ElementRef<HTMLElement>);
 
   constructor() {
     this.router.events
@@ -69,8 +72,33 @@ export class AdminNavbarComponent {
     this.onLogout.emit();
   }
 
+  toggleUserMenu(): void {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  closeUserMenu(): void {
+    this.isUserMenuOpen = false;
+  }
+
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.isScrolled = window.scrollY > 10;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.isUserMenuOpen) {
+      return;
+    }
+    const target = event.target as Node | null;
+    if (!target || this.hostRef.nativeElement.contains(target)) {
+      return;
+    }
+    this.closeUserMenu();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeUserMenu();
   }
 }

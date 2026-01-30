@@ -9,6 +9,7 @@ import { PelayananPageComponent } from './public/pelayanan/pelayanan';
 import { PersembahanPageComponent } from './public/persembahan/persembahan';
 import { TentangPageComponent } from './public/tentang/tentang';
 import { WartaPageComponent } from './public/warta/warta';
+import { WartaArchivePageComponent } from './public/warta-arsip/warta-arsip';
 
 export const publicRoutes: Routes = [
   {
@@ -29,8 +30,13 @@ export const publicRoutes: Routes = [
     component: IbadahPageComponent
   },
   {
+    path: 'warta/arsip',
+    component: WartaArchivePageComponent
+  },
+  {
     path: 'warta',
-    component: WartaPageComponent
+    component: WartaPageComponent,
+    pathMatch: 'full'
   },
   {
     path: 'kegiatan/:id',
