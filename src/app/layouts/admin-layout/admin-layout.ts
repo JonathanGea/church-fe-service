@@ -62,10 +62,12 @@ export class AdminLayoutComponent {
 
   onOpenMobileSidebar(): void {
     this.mobileSidebarOpen = true;
+    this.setBodyScrollLocked(true);
   }
 
   closeMobileSidebar(): void {
     this.mobileSidebarOpen = false;
+    this.setBodyScrollLocked(false);
   }
 
   toggleConfigurator(): void {
